@@ -1,0 +1,20 @@
+/**
+ * @author:	Emmanuel SMITH <hey@emmanuel-smith.me>
+ * project:	powa
+ * file: 	app.scss
+ * Date: 	28/01/2021
+ * Time: 	20:45
+ */
+
+@import "~bootstrap";
+@import "variables";
+
+#app {
+	height:      100vh;
+	font-family: "Roboto", sans-serif !important;
+	font-weight: 100 !important;
+	position:    relative;
+	overflow-x:  hidden;
+	overflow-y:  auto;
+	background:  linear-gradient(to bottom right, $cAccent1, $cAccent2) fixed;
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head >
+		<meta charset="utf-8" >
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" >
+		<meta name="theme-color" content="#175086">
+		
+		<title >Title</title >
+		
+		<link rel="stylesheet" href="assets/scss/chart.css" >
+		<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" >
+		<link rel="stylesheet" href="node_modules/animate.css/animate.min.css" >
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet" >
+	</head >
+	<body class="p-0 picture" >
+		<div class="container-fluid p-0" >
+			<div class="row no-gutters" >
+				<div class="col-12" >
+					<header class="d-flex justify-content-around align-items-center" >
+						<div class="h-100 p-3 pl-5 left" >
+							<img src="assets/img/chart/back.png" class="img-fluid h-100" >
+						</div >
+						<h3 class="m-0 w-100 smart-name" data-box="">SmartBox15</h3 >
+						<div class="h-100 p-3 pr-5 right" >
+							<img src="assets/img/chart/back.png" class="img-fluid h-100" >
+						</div >
+					</header >
+				</div >
+			</div >
+			
+			<div class="box-body" >
+				<div class="month-nav row no-gutters" >
+					<div class="col-12" >
+						<ul class="nav nav-pills justify-content-center px-4 py-3" >
+							<li class="nav-item" >
+								<a class="nav-link active type-data" href="#" data-type="tmp">Temperatures</a >
+							</li >
+							<li class="nav-item" >
+								<a class="nav-link type-data" href="#" data-type="lux">Luminosity</a >
+							</li >
+						</ul >
+					</div >
+				</div >
+				
+				<div class="avg  row no-gutters" >
+					<!-- Month -->
+					<div class="col-4 text-center month" >
+						<h4 class="d-flex align-items-center justify-content-center mb-2" >Month</h4 >
+						<div class="box-temp mb-2" >
+							<div class="temp-container d-flex flex-column d-lg-block justify-content-center" >
+								<span class="temp" >20.5</span >
+								<span class="unity">°C</span >
+							</div >
+							<span class="temp-info" >Avg.</span >
+						</div >
+						<div class="d-flex" >
+							<div class="box-temp small-box w-100 min" >
+								<div class="temp-container  d-flex flex-column d-lg-block justify-content-center" >
+									<span class="temp" >-5.8</span >
+									<span class="unity">°C</span >
+								</div >
+								<span class="temp-info" >Min.</span >
+							</div >
+							<div class="box-temp small-box w-100 max" >
+								<div class="temp-container  d-flex flex-column d-lg-block justify-content-center" >
+									<span class="temp" >33.6</span >
+									<span class="unity">°C</span >
+								</div >
+								<span class="temp-info" >Max.</span >
+							</div >
+						</div >
+						<div class="h-line" ></div >
+					</div >
+					
+					<!-- Day -->
+					<div class="col-4 text-center day" >
+						<h4 class="d-flex align-items-center justify-content-center mb-2" >
+							<img src="assets/img/chart/sun.png" class="h-100" /></h4 >
+						<div class="box-temp mb-2" >
+							<div class="temp-container  d-flex flex-column d-lg-block justify-content-center" >
+								<span class="temp" >20.5</span >
+								<span class="unity">°C</span >
+							</div >
+							<span class="temp-info" >Avg.</span >
+						</div >
+						<div class="d-flex" >
+							<div class="box-temp small-box w-100 min" >
+								<div class="temp-container  d-flex flex-column d-lg-block justify-content-center" >
+									<span class="temp" >-5.8</span >
+									<span class="unity">°C</span >
+								</div >
+								<span class="temp-info" >Min.</span >
+							</div >
+							<div class="box-temp small-box w-100 max" >
+								<div class="temp-container  d-flex flex-column d-lg-block justify-content-center" >
+									<span class="temp" >33.6</span >
+									<span class="unity">°C</span >
+								</div >
+								<span class="temp-info" >Max.</span >
+							</div >
+						</div >
+						<div class="h-line" ></div >
+					</div >
+					
+					<!-- Night -->
+					<div class="col-4 text-center night" >
+						<h4 class="d-flex align-items-center justify-content-center mb-2" >
+							<img src="assets/img/chart/moon.png" class="h-100" /></h4 >
+						<div class="box-temp mb-2" >
+							<div class="temp-container  d-flex flex-column d-lg-block justify-content-center" >
+								<span class="temp" >20.5</span >
+								<span class="unity">°C</span >
+							</div >
+							<span class="temp-info" >Avg.</span >
+						</div >
+						<div class="d-flex" >
+							<div class="box-temp small-box w-100 min" >
+								<div class="temp-container  d-flex flex-column d-lg-block justify-content-center" >
+									<span class="temp" >-5.8</span >
+									<span class="unity">°C</span >
+								</div >
+								<span class="temp-info" >Min.</span >
+							</div >
+							<div class="box-temp small-box w-100 max" >
+								<div class="temp-container d-flex flex-column d-lg-block justify-content-center" >
+									<span class="temp" >33.6</span >
+									<span class="unity">°C</span >
+								</div >
+								<span class="temp-info" >Max.</span >
+							</div >
+						</div >
+					</div >
+				</div >
+				
+				<div class="current row no-gutters" >
+					<div class="col-12 text-center" >
+						<div class="box-temp" >
+							<div class="temp-container" >
+								<span class="temp" >20.5</span >
+								<span class="unity">°C</span >
+							</div >
+							<span class="temp-info" >Current</span >
+						</div >
+					</div >
+				</div >
+				
+				<div class="chart row no-gutters" >
+					<div class="col-12" >
+						<div class="card-body embed-responsive embed-responsive-21by9" >
+							<canvas id="myChart" class="embed-responsive-item" ></canvas >
+						</div >
+						
+						<div class="from-to mb-4" >
+							<div class="h-line" ></div >
+							<div class="d-flex justify-content-between align-content-start px-4" >
+								<div class="from" >
+									<span class="text" >Mon 1st June - 10:10:53</span >
+								</div >
+								
+								<div class="to" >
+									<span class="text" >Mon 1st June - 10:40:53</span >
+								</div >
+							</div >
+						</div >
+					</div >
+				</div >
+			</div >
+		</div >
+		
+		<script src="node_modules/jquery/dist/jquery.min.js" ></script >
+		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js" ></script >
+		<script src="node_modules/moment/min/moment-with-locales.min.js" ></script >
+		<script src="node_modules/chart.js/dist/Chart.min.js" ></script >
+		<script src="assets/js/chartSettings.js" ></script >
+	</body >
+</html >
