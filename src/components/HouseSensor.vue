@@ -1,15 +1,14 @@
 <template>
   <div id="house-sensor">
     <header class="w-100 d-flex justify-content-around align-items-center">
-      <!--      <div class="h-100 p-3 pl-5 left" >-->
-      <!--        <img src="assets/img/chart/back.png" class="img-fluid h-100" >-->
-      <!--      </div >-->
-      <h3 class="m-0 w-100 smart-name">SmartBox15</h3>
-      <!--      <div class="h-100 p-3 pr-5 right" >-->
-      <!--        <img src="assets/img/chart/back.png" class="img-fluid h-100" >-->
-      <!--      </div >-->
+      <div class="h-100 p-3 pl-5 left" v-on:click="changeSensor(true)">
+        <img src="assets/img/chart/back.png" class="img-fluid h-100">
+      </div>
+      <h3 class="m-0 w-100 smart-name" v-if="currentBox">{{ currentBox.name }}</h3>
+      <div class="h-100 p-3 pr-5 right" v-on:click="changeSensor(false)">
+        <img src="assets/img/chart/back.png" class="img-fluid h-100">
+      </div>
     </header>
-
 
     <div class="month-nav">
       <ul class="nav nav-pills justify-content-center px-4 py-3">
@@ -122,54 +121,55 @@
       </div>
     </div>
 
-    <apexchart type="area" width="100%" height="400rem"  :options="options" :series="series"></apexchart>
+    <apexchart type="area" width="100%" height="400rem" :options="options" :series="series"></apexchart>
 
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import BoxSensor from '@/models/HouseSensors/BoxSensor'
 
 @Component
 export default class HouseSensor extends Vue {
-  public options: object = {
+  public options: object        = {
     dataLabels: {
       enabled: false
     },
-    fill: {
-      type: "gradient",
+    fill:       {
+      type:     "gradient",
       gradient: {
-        gradientFromColors: ['rgba(0, 163, 172, 1.000)'],
-        gradientToColors: ['#rgba(0, 163, 172, 0.000)'],
-        shadeIntensity: 1,
-        opacityFrom: 0.7,
-        opacityTo: 0.9,
-        stops: [0, 90, 100]
+        gradientFromColors: [ 'rgba(0, 163, 172, 1.000)' ],
+        gradientToColors:   [ '#rgba(0, 163, 172, 0.000)' ],
+        shadeIntensity:     1,
+        opacityFrom:        0.7,
+        opacityTo:          0.9,
+        stops:              [ 0, 90, 100 ]
       }
     },
-    stroke: {
-      show: true,
-      curve: 'smooth',
-      colors: ['#ffffff80'],
-      width: 1
+    stroke:     {
+      show:   true,
+      curve:  'smooth',
+      colors: [ '#FFFFFF80' ],
+      width:  1
     },
-    grid: {
-      show:        false,
+    grid:       {
+      show: false,
     },
-    yaxis: {
+    yaxis:      {
       show: false
     },
-    xaxis: {
-      labels: {
+    xaxis:      {
+      labels:     {
         style: {
-          colors: '#e95',
+          colors: '#E95',
         }
       },
       axisBorder: {
-        color: '#f5c',
+        color: '#F5C',
       },
-      axisTicks: {
-        color: '#05d'
+      axisTicks:  {
+        color: '#05D'
       },
       categories: [
         "01 Jan",
@@ -182,13 +182,44 @@ export default class HouseSensor extends Vue {
       ]
     }
   }
-
-  public series: object[] = [
+  public series: object[]       = [
     {
       name: "Series 1",
-      data: [45, 52, 38, 45, 19, 23, 2]
+      data: [ 45, 52, 38, 45, 19, 23, 2 ]
     }
   ];
+  public sensors: BoxSensor[]   = {};
+  public currentBox!: BoxSensor = null;
+
+  // ---
+
+  mounted() {
+    this.sensors = {
+      '012ad-dd5s': new BoxSensor( 'The sensor', '012ad-dd5s' ),
+      'dd5s-012ad': new BoxSensor( '2 sensor', 'dd5s-012ad' ),
+      '454f-ddsz':  new BoxSensor( 'The god', '454f-ddsz' )
+    };
+
+    this.currentBox = this.sensors[ '012ad-dd5s' ];
+  }
+
+  // ---
+
+  public changeSensor( way: boolean ) {
+    const sensorsKeys  = Object.keys( this.sensors );
+    const currentIndex = sensorsKeys.indexOf( this.currentBox.id );
+    let nextIndex      = (way)
+        ? currentIndex - 1
+        : currentIndex + 1 % (sensorsKeys.length - 1);
+
+    if ( way && currentIndex - 1 < 0 )
+      nextIndex = sensorsKeys.length - 1;
+
+    if ( !way && sensorsKeys.length - 1 == currentIndex )
+      nextIndex = 0;
+
+    this.currentBox = this.sensors[ sensorsKeys[ nextIndex ] ];
+  }
 }
 </script>
 
