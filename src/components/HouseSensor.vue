@@ -13,37 +13,38 @@
     <div class="month-nav">
       <ul class="nav nav-pills justify-content-center px-4 py-3">
         <li class="nav-item">
-          <a class="nav-link active type-data" data-type="tmp">Temperatures</a>
+          <a class="nav-link type-data" :class="{active: isOnTemperature()}" v-on:click="changeModeToTemperature()">Temperatures</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link type-data" data-type="lux">Luminosity</a>
+          <a class="nav-link type-data" :class="{active: isOnLuminosity()}" v-on:click="changeModeToLuminosity()">Luminosity</a>
         </li>
       </ul>
     </div>
 
     <div class="avg d-flex justify-content-center align-items-center">
       <!-- Month -->
-      <div class="text-center month w-100">
-        <h4 class="d-flex align-items-center justify-content-center mb-2">Month</h4>
+      <!--      <div>{{ currentBox }}</div>-->
+      <div class="text-center month w-100" v-if="currentBox && currentBox.monthData">
+        <h4 class="d-flex align-items-center justify-content-center mb-2">{{ currentBox.monthData.title }}</h4>
         <div class="box-temp mb-2">
           <div class="temp-container d-flex flex-column d-lg-block justify-content-center">
-            <span class="temp">20.5</span>
-            <span class="unity">°C</span>
+            <span class="temp">{{ currentBox.monthData.avg.toFixed( 1 ) }}</span>
+            <span class="unity">{{ currentBox.monthData.unit }}</span>
           </div>
           <span class="temp-info">Avg.</span>
         </div>
         <div class="d-flex">
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">-5.8</span>
-              <span class="unity">°C</span>
+              <span class="temp">{{ currentBox.monthData.min.toFixed( 1 ) }}</span>
+              <span class="unity">{{ currentBox.monthData.unit }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">33.6</span>
-              <span class="unity">°C</span>
+              <span class="temp">{{ currentBox.monthData.max.toFixed( 1 ) }}</span>
+              <span class="unity">{{ currentBox.monthData.unit }}</span>
             </div>
             <span class="temp-info">Max.</span>
           </div>
@@ -52,28 +53,28 @@
       </div>
 
       <!-- Day -->
-      <div class="text-center day w-100">
+      <div class="text-center day w-100" v-if="currentBox && currentBox.dayData">
         <h4 class="d-flex align-items-center justify-content-center mb-2">
           <img src="assets/img/chart/sun.png" class="h-100" /></h4>
         <div class="box-temp mb-2">
           <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-            <span class="temp">20.5</span>
-            <span class="unity">°C</span>
+            <span class="temp">{{ currentBox.dayData.avg.toFixed( 1 ) }}</span>
+            <span class="unity">{{ currentBox.dayData.unit }}</span>
           </div>
           <span class="temp-info">Avg.</span>
         </div>
         <div class="d-flex">
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">-5.8</span>
-              <span class="unity">°C</span>
+              <span class="temp">{{ currentBox.dayData.min.toFixed( 1 ) }}</span>
+              <span class="unity">{{ currentBox.dayData.unit }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">33.6</span>
-              <span class="unity">°C</span>
+              <span class="temp">{{ currentBox.dayData.max.toFixed( 1 ) }}</span>
+              <span class="unity">{{ currentBox.dayData.unit }}</span>
             </div>
             <span class="temp-info">Max.</span>
           </div>
@@ -82,28 +83,28 @@
       </div>
 
       <!-- Night -->
-      <div class="text-center night w-100">
+      <div class="text-center night w-100" v-if="currentBox && currentBox.nightData">
         <h4 class="d-flex align-items-center justify-content-center mb-2">
           <img src="assets/img/chart/moon.png" class="h-100" /></h4>
         <div class="box-temp mb-2">
           <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-            <span class="temp">20.5</span>
-            <span class="unity">°C</span>
+            <span class="temp">{{ currentBox.nightData.avg.toFixed( 1 ) }}</span>
+            <span class="unity">{{ currentBox.nightData.unit }}</span>
           </div>
           <span class="temp-info">Avg.</span>
         </div>
         <div class="d-flex">
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">-5.8</span>
-              <span class="unity">°C</span>
+              <span class="temp">{{ currentBox.nightData.min.toFixed( 1 ) }}</span>
+              <span class="unity">{{ currentBox.nightData.unit }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">33.6</span>
-              <span class="unity">°C</span>
+              <span class="temp">{{ currentBox.nightData.max.toFixed( 1 ) }}</span>
+              <span class="unity">{{ currentBox.nightData.unit }}</span>
             </div>
             <span class="temp-info">Max.</span>
           </div>
@@ -111,11 +112,11 @@
       </div>
     </div>
 
-    <div class="current  text-center">
+    <div class="current  text-center" v-if="currentBox && currentBox.nowData">
       <div class="box-temp">
         <div class="temp-container">
-          <span class="temp">20.5</span>
-          <span class="unity">°C</span>
+          <span class="temp">{{ currentBox.nowData.current.toFixed( 1 ) }}</span>
+          <span class="unity">{{ currentBox.nowData.unit }}</span>
         </div>
         <span class="temp-info">Current</span>
       </div>
@@ -129,10 +130,15 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import BoxSensor from '@/models/HouseSensors/BoxSensor'
+import BoxSensorData from '@/models/HouseSensors/BoxSensorData';
 
 @Component
 export default class HouseSensor extends Vue {
-  public options: object        = {
+  static readonly MODE_TEMPERATURE: string = 'temp';
+  static readonly MODE_LUMINOSITY: string  = 'lux';
+  static readonly REFRESH_INTERVAL: number = 1000;
+
+  public options: object               = {
     dataLabels: {
       enabled: false
     },
@@ -182,14 +188,17 @@ export default class HouseSensor extends Vue {
       ]
     }
   }
-  public series: object[]       = [
+  public series: object[]              = [
     {
       name: "Series 1",
       data: [ 45, 52, 38, 45, 19, 23, 2 ]
     }
   ];
-  public sensors: BoxSensor[]   = {};
-  public currentBox!: BoxSensor = null;
+  public sensors?: { [ key: string ]: BoxSensor };
+  public currentBox?: BoxSensor | null = null;
+  public mode: string                  = HouseSensor.MODE_TEMPERATURE;
+
+  private interval: number | undefined;
 
   // ---
 
@@ -200,25 +209,107 @@ export default class HouseSensor extends Vue {
       '454f-ddsz':  new BoxSensor( 'The god', '454f-ddsz' )
     };
 
-    this.currentBox = this.sensors[ '012ad-dd5s' ];
+    if ( this.sensors.hasOwnProperty( '012ad-dd5s' ) )
+      this.changeBox( this.sensors[ '012ad-dd5s' ] )
   }
 
   // ---
 
   public changeSensor( way: boolean ) {
-    const sensorsKeys  = Object.keys( this.sensors );
-    const currentIndex = sensorsKeys.indexOf( this.currentBox.id );
-    let nextIndex      = (way)
-        ? currentIndex - 1
-        : currentIndex + 1 % (sensorsKeys.length - 1);
+    if ( this.sensors && this.currentBox ) {
+      const sensorsKeys  = Object.keys( this.sensors );
+      const currentIndex = sensorsKeys.indexOf( this.currentBox.id );
+      let nextIndex      = (way)
+          ? currentIndex - 1
+          : currentIndex + 1 % (sensorsKeys.length - 1);
 
-    if ( way && currentIndex - 1 < 0 )
-      nextIndex = sensorsKeys.length - 1;
+      if ( way && currentIndex - 1 < 0 )
+        nextIndex = sensorsKeys.length - 1;
 
-    if ( !way && sensorsKeys.length - 1 == currentIndex )
-      nextIndex = 0;
+      if ( !way && sensorsKeys.length - 1 == currentIndex )
+        nextIndex = 0;
 
-    this.currentBox = this.sensors[ sensorsKeys[ nextIndex ] ];
+      this.changeBox( this.sensors[ sensorsKeys[ nextIndex ] ] )
+    }
+  }
+
+  public changeBox( box: BoxSensor ) {
+    this.currentBox = box;
+
+    // --- FAKE - Test
+    let i = 0;
+    clearInterval( this.interval );
+    this.interval = setInterval( () => {
+      if ( this.currentBox ) {
+        const unit = (this.isOnTemperature())
+            ? '°C'
+            : 'lux'
+        const data = {
+          unit:    unit,
+          month:   {
+            min: -5.8 + i * .1,
+            max: 33.6 + i * .1,
+            avg: 20.3 + i * .1
+          },
+          day:     {
+            min: -10.5 + i * .1,
+            max: 25.6 + i * .1,
+            avg: 22.1 + i * .1
+          },
+          night:   {
+            min: 0.6 + i * .1,
+            max: 39.5 + i * .1,
+            avg: 24.6 + i * .1
+          },
+          current: 20.0 + i * .1
+        };
+
+        this.changeSensorsData( data );
+
+        i++;
+        // console.log( i, this.currentBox );
+      }
+    }, HouseSensor.REFRESH_INTERVAL );
+    // --- ./FAKE - Test
+  }
+
+  public changeModeToTemperature() {
+    this.mode = HouseSensor.MODE_TEMPERATURE;
+  }
+
+  public changeModeToLuminosity() {
+    this.mode = HouseSensor.MODE_LUMINOSITY;
+  }
+
+  public changeSensorsData( dataIn: any ) {
+    if ( this.currentBox ) {
+
+      this.currentBox.monthData = new BoxSensorData(
+          'Month', dataIn.unit, dataIn.month.min, dataIn.month.max, dataIn.month.avg
+      );
+
+      this.currentBox.dayData = new BoxSensorData(
+          'Day', dataIn.unit, dataIn.day.min, dataIn.day.max, dataIn.day.avg
+      );
+
+      this.currentBox.nightData = new BoxSensorData(
+          'Night', dataIn.unit, dataIn.night.min, dataIn.night.max, dataIn.night.avg
+      );
+
+      this.currentBox.nowData = new BoxSensorData(
+          'Now', dataIn.unit, 0, 0, 0, dataIn.current
+      );
+    }
+  }
+
+  // ---
+
+  public isOnTemperature(): boolean {
+    return this.mode === HouseSensor.MODE_TEMPERATURE;
+  }
+
+  public isOnLuminosity(): boolean {
+    return this.mode === HouseSensor.MODE_LUMINOSITY;
   }
 }
 </script>
