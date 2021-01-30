@@ -1,16 +1,18 @@
-import Vue from 'vue'
-import App from './App.vue'
-import './registerServiceWorker'
-import router from './router'
+import Vue from 'vue';
 
-import VueApexCharts from 'vue-apexcharts'
+import VueApexCharts from 'vue-apexcharts';
+import App           from './App.vue';
+import './registerServiceWorker';
+import router        from './router';
 
-Vue.use(VueApexCharts)
-Vue.component('apexchart', VueApexCharts)
+Vue.use( VueApexCharts );
 
-Vue.config.productionTip = false
+Vue.component( 'apexchart', VueApexCharts );
 
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+Vue.config.productionTip = false;
+
+new Vue( {
+	         router,
+	         render: h => h( App )
+         } )
+	.$mount( '#app' );

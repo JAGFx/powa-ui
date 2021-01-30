@@ -128,11 +128,21 @@
 </template>
 
 <script lang="ts">
+import BoxSensor          from '@/models/HouseSensors/BoxSensor';
+import BoxSensorData      from '@/models/HouseSensors/BoxSensorData';
 import { Component, Vue } from 'vue-property-decorator';
-import BoxSensor from '@/models/HouseSensors/BoxSensor'
-import BoxSensorData from '@/models/HouseSensors/BoxSensorData';
 
-@Component
+@Component( {
+              sockets: {
+                connect() {
+                  console.log( 'connected' );
+                },
+                update( data: any ) {
+                  console.log( 'Plop', data );
+                  this.changeSensorsData( data );
+                }
+              }
+            } )
 export default class HouseSensor extends Vue {
   static readonly MODE_TEMPERATURE: string = 'temp';
   static readonly MODE_LUMINOSITY: string  = 'lux';
@@ -143,7 +153,7 @@ export default class HouseSensor extends Vue {
       enabled: false
     },
     fill:       {
-      type:     "gradient",
+      type:     'gradient',
       gradient: {
         gradientFromColors: [ 'rgba(0, 163, 172, 1.000)' ],
         gradientToColors:   [ '#rgba(0, 163, 172, 0.000)' ],
@@ -160,7 +170,7 @@ export default class HouseSensor extends Vue {
       width:  1
     },
     grid:       {
-      show: false,
+      show: false
     },
     yaxis:      {
       show: false
@@ -168,29 +178,29 @@ export default class HouseSensor extends Vue {
     xaxis:      {
       labels:     {
         style: {
-          colors: '#E95',
+          colors: '#E95'
         }
       },
       axisBorder: {
-        color: '#F5C',
+        color: '#F5C'
       },
       axisTicks:  {
         color: '#05D'
       },
       categories: [
-        "01 Jan",
-        "02 Jan",
-        "03 Jan",
-        "04 Jan",
-        "05 Jan",
-        "06 Jan",
-        "07 Jan"
+        '01 Jan',
+        '02 Jan',
+        '03 Jan',
+        '04 Jan',
+        '05 Jan',
+        '06 Jan',
+        '07 Jan'
       ]
     }
-  }
+  };
   public series: object[]              = [
     {
-      name: "Series 1",
+      name: 'Series 1',
       data: [ 45, 52, 38, 45, 19, 23, 2 ]
     }
   ];
@@ -210,7 +220,7 @@ export default class HouseSensor extends Vue {
     };
 
     if ( this.sensors.hasOwnProperty( '012ad-dd5s' ) )
-      this.changeBox( this.sensors[ '012ad-dd5s' ] )
+      this.changeBox( this.sensors[ '012ad-dd5s' ] );
   }
 
   // ---
@@ -219,9 +229,9 @@ export default class HouseSensor extends Vue {
     if ( this.sensors && this.currentBox ) {
       const sensorsKeys  = Object.keys( this.sensors );
       const currentIndex = sensorsKeys.indexOf( this.currentBox.id );
-      let nextIndex      = (way)
-          ? currentIndex - 1
-          : currentIndex + 1 % (sensorsKeys.length - 1);
+      let nextIndex      = ( way )
+                           ? currentIndex - 1
+                           : currentIndex + 1 % ( sensorsKeys.length - 1 );
 
       if ( way && currentIndex - 1 < 0 )
         nextIndex = sensorsKeys.length - 1;
@@ -229,7 +239,7 @@ export default class HouseSensor extends Vue {
       if ( !way && sensorsKeys.length - 1 == currentIndex )
         nextIndex = 0;
 
-      this.changeBox( this.sensors[ sensorsKeys[ nextIndex ] ] )
+      this.changeBox( this.sensors[ sensorsKeys[ nextIndex ] ] );
     }
   }
 
@@ -237,39 +247,39 @@ export default class HouseSensor extends Vue {
     this.currentBox = box;
 
     // --- FAKE - Test
-    let i = 0;
-    clearInterval( this.interval );
-    this.interval = setInterval( () => {
-      if ( this.currentBox ) {
-        const unit = (this.isOnTemperature())
-            ? '°C'
-            : 'lux'
-        const data = {
-          unit:    unit,
-          month:   {
-            min: -5.8 + i * .1,
-            max: 33.6 + i * .1,
-            avg: 20.3 + i * .1
-          },
-          day:     {
-            min: -10.5 + i * .1,
-            max: 25.6 + i * .1,
+    /*let i = 0;
+     clearInterval( this.interval );
+     this.interval = setInterval( () => {
+     if ( this.currentBox ) {
+     const unit = ( this.isOnTemperature() )
+     ? '°C'
+     : 'lux';
+     const data = {
+     unit:    unit,
+     month:   {
+     min: -5.8 + i * .1,
+     max: 33.6 + i * .1,
+     avg: 20.3 + i * .1
+     },
+     day:     {
+     min: -10.5 + i * .1,
+     max: 25.6 + i * .1,
             avg: 22.1 + i * .1
           },
           night:   {
             min: 0.6 + i * .1,
             max: 39.5 + i * .1,
-            avg: 24.6 + i * .1
-          },
-          current: 20.0 + i * .1
-        };
+     avg: 24.6 + i * .1
+     },
+     current: 20.0 + i * .1
+     };
 
-        this.changeSensorsData( data );
+     this.changeSensorsData( data );
 
-        i++;
-        // console.log( i, this.currentBox );
-      }
-    }, HouseSensor.REFRESH_INTERVAL );
+     i++;
+     // console.log( i, this.currentBox );
+     }
+     }, HouseSensor.REFRESH_INTERVAL );*/
     // --- ./FAKE - Test
   }
 
