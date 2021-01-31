@@ -1,6 +1,7 @@
 <template>
   <div id="house-sensor">
     <header class="w-100 d-flex justify-content-around align-items-center">
+      <router-link class="" to="/">H</router-link>
       <div class="h-100 p-3 pl-5 left" v-on:click="changeSensor(true)">
         <img src="assets/img/chart/back.png" class="img-fluid h-100">
       </div>
@@ -21,6 +22,24 @@
       </ul>
     </div>
 
+    <!--    <div class="month-nav">-->
+    <!--      <ul class="nav nav-pills justify-content-center px-4 py-3">-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Jan.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Feb.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Mar.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Apr.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">May</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Jun.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Jul.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Aug.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Sept.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Oct.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Nov.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Dec.</a></li>-->
+    <!--      </ul>-->
+    <!--    </div>-->
+
+
     <div class="avg d-flex justify-content-center align-items-center">
       <!-- Month -->
       <!--      <div>{{ currentBox }}</div>-->
@@ -29,7 +48,7 @@
         <div class="box-temp mb-2">
           <div class="temp-container d-flex flex-column d-lg-block justify-content-center">
             <span class="temp">{{ currentBox.monthData.avg.toFixed( 1 ) }}</span>
-            <span class="unity">{{ currentBox.monthData.unit }}</span>
+            <span class="unity">{{ humanizeMode( currentBox.monthData.unit ) }}</span>
           </div>
           <span class="temp-info">Avg.</span>
         </div>
@@ -37,14 +56,14 @@
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
               <span class="temp">{{ currentBox.monthData.min.toFixed( 1 ) }}</span>
-              <span class="unity">{{ currentBox.monthData.unit }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.monthData.unit ) }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
               <span class="temp">{{ currentBox.monthData.max.toFixed( 1 ) }}</span>
-              <span class="unity">{{ currentBox.monthData.unit }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.monthData.unit ) }}</span>
             </div>
             <span class="temp-info">Max.</span>
           </div>
@@ -59,7 +78,7 @@
         <div class="box-temp mb-2">
           <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
             <span class="temp">{{ currentBox.dayData.avg.toFixed( 1 ) }}</span>
-            <span class="unity">{{ currentBox.dayData.unit }}</span>
+            <span class="unity">{{ humanizeMode( currentBox.dayData.unit ) }}</span>
           </div>
           <span class="temp-info">Avg.</span>
         </div>
@@ -67,14 +86,14 @@
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
               <span class="temp">{{ currentBox.dayData.min.toFixed( 1 ) }}</span>
-              <span class="unity">{{ currentBox.dayData.unit }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.dayData.unit ) }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
               <span class="temp">{{ currentBox.dayData.max.toFixed( 1 ) }}</span>
-              <span class="unity">{{ currentBox.dayData.unit }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.dayData.unit ) }}</span>
             </div>
             <span class="temp-info">Max.</span>
           </div>
@@ -89,7 +108,7 @@
         <div class="box-temp mb-2">
           <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
             <span class="temp">{{ currentBox.nightData.avg.toFixed( 1 ) }}</span>
-            <span class="unity">{{ currentBox.nightData.unit }}</span>
+            <span class="unity">{{ humanizeMode( currentBox.nightData.unit ) }}</span>
           </div>
           <span class="temp-info">Avg.</span>
         </div>
@@ -97,14 +116,14 @@
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
               <span class="temp">{{ currentBox.nightData.min.toFixed( 1 ) }}</span>
-              <span class="unity">{{ currentBox.nightData.unit }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.nightData.unit ) }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container d-flex flex-column d-lg-block justify-content-center">
               <span class="temp">{{ currentBox.nightData.max.toFixed( 1 ) }}</span>
-              <span class="unity">{{ currentBox.nightData.unit }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.nightData.unit ) }}</span>
             </div>
             <span class="temp-info">Max.</span>
           </div>
@@ -116,77 +135,58 @@
       <div class="box-temp">
         <div class="temp-container">
           <span class="temp">{{ currentBox.nowData.current.toFixed( 1 ) }}</span>
-          <span class="unity">{{ currentBox.nowData.unit }}</span>
+          <span class="unity">{{ humanizeMode( currentBox.nowData.unit ) }}</span>
         </div>
         <span class="temp-info">Current</span>
       </div>
     </div>
 
-    <apexchart type="area" width="100%" height="400rem" :options="options" :series="series"></apexchart>
+    <apexchart type="area" width="100%" height="250rem" :options="options" :series="series"></apexchart>
 
   </div>
 </template>
 
 <script lang="ts">
-import BoxSensor          from '@/models/HouseSensors/BoxSensor';
-import BoxSensorData      from '@/models/HouseSensors/BoxSensorData';
-import { Component, Vue } from 'vue-property-decorator';
+import BoxSensor               from '@/models/HouseSensors/BoxSensor';
+import BoxSensorData           from '@/models/HouseSensors/BoxSensorData';
+import { HouseSensorProvider } from '@/providers/houseSensor.provider';
+import { Component, Vue }      from 'vue-property-decorator';
 
-@Component( {
-              sockets: {
-                connect() {
-                  console.log( 'connected' );
-                },
-                update( data: any ) {
-                  console.log( 'Plop', data );
-                  this.changeSensorsData( data );
-                }
-              }
-            } )
+@Component
 export default class HouseSensor extends Vue {
   static readonly MODE_TEMPERATURE: string = 'temp';
   static readonly MODE_LUMINOSITY: string  = 'lux';
-  static readonly REFRESH_INTERVAL: number = 1000;
+  static readonly REFRESH_INTERVAL: number = 5000;
 
   public options: object               = {
-    dataLabels: {
-      enabled: false
-    },
-    fill:       {
-      type:     'gradient',
-      gradient: {
-        gradientFromColors: [ 'rgba(0, 163, 172, 1.000)' ],
-        gradientToColors:   [ '#rgba(0, 163, 172, 0.000)' ],
-        shadeIntensity:     1,
-        opacityFrom:        0.7,
-        opacityTo:          0.9,
-        stops:              [ 0, 90, 100 ]
+    chart:  {
+      sparkline: {
+        enabled: true
       }
     },
-    stroke:     {
+    fill:   {
+      colors:   '#00A3AC',
+      type:     'gradient',
+      gradient: {
+        gradientFromColors: [ '#00A3AC' ],
+        // gradientToColors:   [ '#rgba(0, 163, 172, 0.000)' ],
+        // shadeIntensity:     1,
+        opacityFrom: 1,
+        opacityTo:   0
+        // stops:              [ 0, 90, 100 ]
+      }
+    },
+    stroke: {
       show:   true,
       curve:  'smooth',
       colors: [ '#FFFFFF80' ],
-      width:  1
+      width:  2
     },
-    grid:       {
+    grid:   {
       show: false
     },
-    yaxis:      {
-      show: false
-    },
-    xaxis:      {
-      labels:     {
-        style: {
-          colors: '#E95'
-        }
-      },
-      axisBorder: {
-        color: '#F5C'
-      },
-      axisTicks:  {
-        color: '#05D'
-      },
+    xaxis:  {
+      type:       'datetime',
       categories: [
         '01 Jan',
         '02 Jan',
@@ -198,29 +198,31 @@ export default class HouseSensor extends Vue {
       ]
     }
   };
-  public series: object[]              = [
-    {
-      name: 'Series 1',
-      data: [ 45, 52, 38, 45, 19, 23, 2 ]
-    }
-  ];
+  public series: object[]              = [];
   public sensors?: { [ key: string ]: BoxSensor };
   public currentBox?: BoxSensor | null = null;
   public mode: string                  = HouseSensor.MODE_TEMPERATURE;
+  public hsp: HouseSensorProvider      = new HouseSensorProvider();
 
-  private interval: number | undefined;
+  private pendingUpdate: number | undefined;
 
   // ---
 
   mounted() {
-    this.sensors = {
-      '012ad-dd5s': new BoxSensor( 'The sensor', '012ad-dd5s' ),
-      'dd5s-012ad': new BoxSensor( '2 sensor', 'dd5s-012ad' ),
-      '454f-ddsz':  new BoxSensor( 'The god', '454f-ddsz' )
-    };
+    this.hsp
+        .getSensorsList()
+        .then( ( list: { [ key: string ]: BoxSensor } ) => {
+          this.sensors = list;
+        } )
+        .then( () => {
+          if ( this.sensors && Object.keys( this.sensors ).length > 0 ) {
+            const firstSensorID = Object.keys( this.sensors )[ 0 ];
 
-    if ( this.sensors.hasOwnProperty( '012ad-dd5s' ) )
-      this.changeBox( this.sensors[ '012ad-dd5s' ] );
+            this.changeBox( this.sensors[ firstSensorID ] );
+          }
+        } );
+
+    this.updateDayHistories();
   }
 
   // ---
@@ -244,51 +246,27 @@ export default class HouseSensor extends Vue {
   }
 
   public changeBox( box: BoxSensor ) {
+    clearTimeout( this.pendingUpdate );
+
     this.currentBox = box;
 
-    // --- FAKE - Test
-    /*let i = 0;
-     clearInterval( this.interval );
-     this.interval = setInterval( () => {
-     if ( this.currentBox ) {
-     const unit = ( this.isOnTemperature() )
-     ? '°C'
-     : 'lux';
-     const data = {
-     unit:    unit,
-     month:   {
-     min: -5.8 + i * .1,
-     max: 33.6 + i * .1,
-     avg: 20.3 + i * .1
-     },
-     day:     {
-     min: -10.5 + i * .1,
-     max: 25.6 + i * .1,
-            avg: 22.1 + i * .1
-          },
-          night:   {
-            min: 0.6 + i * .1,
-            max: 39.5 + i * .1,
-     avg: 24.6 + i * .1
-     },
-     current: 20.0 + i * .1
-     };
-
-     this.changeSensorsData( data );
-
-     i++;
-     // console.log( i, this.currentBox );
-     }
-     }, HouseSensor.REFRESH_INTERVAL );*/
-    // --- ./FAKE - Test
+    this.initFetchingSensorData();
   }
 
   public changeModeToTemperature() {
-    this.mode = HouseSensor.MODE_TEMPERATURE;
+    if ( this.currentBox ) {
+      this.mode = HouseSensor.MODE_TEMPERATURE;
+      this.changeBox( this.currentBox );
+      this.updateDayHistories();
+    }
   }
 
   public changeModeToLuminosity() {
-    this.mode = HouseSensor.MODE_LUMINOSITY;
+    if ( this.currentBox ) {
+      this.mode = HouseSensor.MODE_LUMINOSITY;
+      this.changeBox( this.currentBox );
+      this.updateDayHistories();
+    }
   }
 
   public changeSensorsData( dataIn: any ) {
@@ -312,6 +290,21 @@ export default class HouseSensor extends Vue {
     }
   }
 
+  public updateSensorData( id: string ) {
+    return this.hsp.getSensorData( id, this.mode )
+               .then( ( data: any ) => {
+                 this.changeSensorsData( data );
+               } );
+  }
+
+  public updateDayHistories() {
+    return this.hsp
+               .getDayHistories( this.mode )
+               .then( ( histories: any ) => {
+                 this.series = histories;
+               } );
+  }
+
   // ---
 
   public isOnTemperature(): boolean {
@@ -320,6 +313,20 @@ export default class HouseSensor extends Vue {
 
   public isOnLuminosity(): boolean {
     return this.mode === HouseSensor.MODE_LUMINOSITY;
+  }
+
+  // ---
+  public humanizeMode( unit: string ) {
+    return unit === HouseSensor.MODE_TEMPERATURE
+           ? '°C'
+           : 'lux';
+  }
+
+  public initFetchingSensorData() {
+    if ( this.currentBox )
+      this.updateSensorData( this.currentBox.id )
+          .then( this.updateDayHistories )
+          .then( () => this.pendingUpdate = setTimeout( this.initFetchingSensorData, HouseSensor.REFRESH_INTERVAL ) );
   }
 }
 </script>

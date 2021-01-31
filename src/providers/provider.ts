@@ -13,7 +13,7 @@ export abstract class Provider {
 	// ---
 	
 	protected path( target?: string ): string {
-		return `${ this.host }:${ this.port }/api/${ this.prefixPath() }/${ target }`;
+		return `${ this.host }:${ this.port }/api/${ this.prefixPath() }${ target }`;
 	}
 	
 	// ---

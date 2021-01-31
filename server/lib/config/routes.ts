@@ -22,6 +22,8 @@ export class Routes {
 		app.route( '/api/ping' ).get( this.apiCtrl.ping );
 		
 		// --- HouseSensor
+		app.route( '/api/house-sensors' ).get( this.hspCtrl.getList );
+		app.route( '/api/house-sensors/histories' ).get( this.hspCtrl.getDayHistories );
 		app.route( '/api/house-sensors/:target' ).get( this.hspCtrl.getData );
 		
 		// app.route( "/nodes" ).get( this.nodesController.index );
