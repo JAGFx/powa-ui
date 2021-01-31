@@ -71,4 +71,10 @@ export class HouseSensorController {
 		
 		res.json( d );
 	}
+	
+	public postData( req: Request, res: Response ) {
+		console.log( req.body );
+		
+		res.json( req.body );
+	}
 }

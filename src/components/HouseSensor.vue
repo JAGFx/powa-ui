@@ -169,11 +169,8 @@ export default class HouseSensor extends Vue {
       type:     'gradient',
       gradient: {
         gradientFromColors: [ '#00A3AC' ],
-        // gradientToColors:   [ '#rgba(0, 163, 172, 0.000)' ],
-        // shadeIntensity:     1,
         opacityFrom: 1,
         opacityTo:   0
-        // stops:              [ 0, 90, 100 ]
       }
     },
     stroke: {
@@ -182,20 +179,8 @@ export default class HouseSensor extends Vue {
       colors: [ '#FFFFFF80' ],
       width:  2
     },
-    grid:   {
-      show: false
-    },
     xaxis:  {
-      type:       'datetime',
-      categories: [
-        '01 Jan',
-        '02 Jan',
-        '03 Jan',
-        '04 Jan',
-        '05 Jan',
-        '06 Jan',
-        '07 Jan'
-      ]
+      type: 'datetime'
     }
   };
   public series: object[]              = [];
@@ -223,6 +208,10 @@ export default class HouseSensor extends Vue {
         } );
 
     this.updateDayHistories();
+  }
+
+  destroy() {
+    clearTimeout( this.pendingUpdate );
   }
 
   // ---

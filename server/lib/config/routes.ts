@@ -25,6 +25,7 @@ export class Routes {
 		app.route( '/api/house-sensors' ).get( this.hspCtrl.getList );
 		app.route( '/api/house-sensors/histories' ).get( this.hspCtrl.getDayHistories );
 		app.route( '/api/house-sensors/:target' ).get( this.hspCtrl.getData );
+		app.route( '/api/house-sensors/:target' ).post( this.hspCtrl.postData );
 		
 		// app.route( "/nodes" ).get( this.nodesController.index );
 	}
