@@ -6,31 +6,26 @@
  * Time: 	14:58
  */
 
-// import { NodesController } from "../controllers/nodes.controller";
-import { ApiController }         from '../controllers/api.controller';
-import { ElectricityController } from '../controllers/electricity.controller';
-import { HouseSensorController } from '../controllers/houseSensor.controller';
+import { ApiController }    from '../controllers/api.controller';
+import { SensorController } from '../controllers/sensor.controller';
 
 export class Routes {
-	// public nodesController: NodesController = new NodesController();
-	public apiCtrl: ApiController         = new ApiController();
-	public hspCtrl: HouseSensorController = new HouseSensorController();
-	public elCtrl: ElectricityController  = new ElectricityController();
+	public apiCtrl: ApiController     = new ApiController();
+	public sensCtrl: SensorController = new SensorController();
+	
+	// public elCtrl: ElectricityController = new ElectricityController();
 	
 	public routes( app: any ): void {
-		// app.route( "/" ).get( this.nodesController.index );
-		
 		// --- API
 		app.route( '/api/ping' ).get( this.apiCtrl.ping );
 		
 		// --- HouseSensor
-		app.route( '/api/house-sensors' ).get( this.hspCtrl.getList );
-		app.route( '/api/house-sensors/histories' ).get( this.hspCtrl.getDayHistories );
-		app.route( '/api/house-sensors/:target' ).get( this.hspCtrl.getData );
-		app.route( '/api/house-sensors/:target' ).post( this.hspCtrl.postData );
+		app.route( '/api/sensors' ).get( this.sensCtrl.getList );
+		app.route( '/api/sensors/histories' ).get( this.sensCtrl.getDayHistories );
+		app.route( '/api/sensors/:target' ).get( this.sensCtrl.getData );
+		app.route( '/api/sensors/:target' ).post( this.sensCtrl.postData );
 		
 		// --- Electricity
-		app.route( '/api/electricity/:target' ).post( this.elCtrl.postData );
-		// app.route( "/nodes" ).get( this.nodesController.index );
+		// app.route( '/api/electricity/:target' ).post( this.elCtrl.postData );
 	}
 }

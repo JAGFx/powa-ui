@@ -43,27 +43,27 @@
     <div class="avg d-flex justify-content-center align-items-center">
       <!-- Month -->
       <!--      <div>{{ currentBox }}</div>-->
-      <div class="text-center month w-100" v-if="currentBox && currentBox.monthData">
-        <h4 class="d-flex align-items-center justify-content-center mb-2">{{ currentBox.monthData.title }}</h4>
+      <div class="text-center month w-100" v-if="currentBox && currentBox.monthRange">
+        <h4 class="d-flex align-items-center justify-content-center mb-2">{{ currentBox.monthRange.title }}</h4>
         <div class="box-temp mb-2">
           <div class="temp-container d-flex flex-column d-lg-block justify-content-center">
-            <span class="temp">{{ currentBox.monthData.avg.toFixed( 1 ) }}</span>
-            <span class="unity">{{ humanizeMode( currentBox.monthData.unit ) }}</span>
+            <span class="temp">{{ currentBox.monthRange.avg.toFixed( 1 ) }}</span>
+            <span class="unity">{{ humanizeMode( currentBox.monthRange.unit ) }}</span>
           </div>
           <span class="temp-info">Avg.</span>
         </div>
         <div class="d-flex">
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentBox.monthData.min.toFixed( 1 ) }}</span>
-              <span class="unity">{{ humanizeMode( currentBox.monthData.unit ) }}</span>
+              <span class="temp">{{ currentBox.monthRange.min.toFixed( 1 ) }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.monthRange.unit ) }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentBox.monthData.max.toFixed( 1 ) }}</span>
-              <span class="unity">{{ humanizeMode( currentBox.monthData.unit ) }}</span>
+              <span class="temp">{{ currentBox.monthRange.max.toFixed( 1 ) }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.monthRange.unit ) }}</span>
             </div>
             <span class="temp-info">Max.</span>
           </div>
@@ -72,28 +72,28 @@
       </div>
 
       <!-- Day -->
-      <div class="text-center day w-100" v-if="currentBox && currentBox.dayData">
+      <div class="text-center day w-100" v-if="currentBox && currentBox.dayRange">
         <h4 class="d-flex align-items-center justify-content-center mb-2">
           <img src="assets/img/chart/sun.png" class="h-100" /></h4>
         <div class="box-temp mb-2">
           <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-            <span class="temp">{{ currentBox.dayData.avg.toFixed( 1 ) }}</span>
-            <span class="unity">{{ humanizeMode( currentBox.dayData.unit ) }}</span>
+            <span class="temp">{{ currentBox.dayRange.avg.toFixed( 1 ) }}</span>
+            <span class="unity">{{ humanizeMode( currentBox.dayRange.unit ) }}</span>
           </div>
           <span class="temp-info">Avg.</span>
         </div>
         <div class="d-flex">
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentBox.dayData.min.toFixed( 1 ) }}</span>
-              <span class="unity">{{ humanizeMode( currentBox.dayData.unit ) }}</span>
+              <span class="temp">{{ currentBox.dayRange.min.toFixed( 1 ) }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.dayRange.unit ) }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentBox.dayData.max.toFixed( 1 ) }}</span>
-              <span class="unity">{{ humanizeMode( currentBox.dayData.unit ) }}</span>
+              <span class="temp">{{ currentBox.dayRange.max.toFixed( 1 ) }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.dayRange.unit ) }}</span>
             </div>
             <span class="temp-info">Max.</span>
           </div>
@@ -102,28 +102,28 @@
       </div>
 
       <!-- Night -->
-      <div class="text-center night w-100" v-if="currentBox && currentBox.nightData">
+      <div class="text-center night w-100" v-if="currentBox && currentBox.nightRange">
         <h4 class="d-flex align-items-center justify-content-center mb-2">
           <img src="assets/img/chart/moon.png" class="h-100" /></h4>
         <div class="box-temp mb-2">
           <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-            <span class="temp">{{ currentBox.nightData.avg.toFixed( 1 ) }}</span>
-            <span class="unity">{{ humanizeMode( currentBox.nightData.unit ) }}</span>
+            <span class="temp">{{ currentBox.nightRange.avg.toFixed( 1 ) }}</span>
+            <span class="unity">{{ humanizeMode( currentBox.nightRange.unit ) }}</span>
           </div>
           <span class="temp-info">Avg.</span>
         </div>
         <div class="d-flex">
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentBox.nightData.min.toFixed( 1 ) }}</span>
-              <span class="unity">{{ humanizeMode( currentBox.nightData.unit ) }}</span>
+              <span class="temp">{{ currentBox.nightRange.min.toFixed( 1 ) }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.nightRange.unit ) }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentBox.nightData.max.toFixed( 1 ) }}</span>
-              <span class="unity">{{ humanizeMode( currentBox.nightData.unit ) }}</span>
+              <span class="temp">{{ currentBox.nightRange.max.toFixed( 1 ) }}</span>
+              <span class="unity">{{ humanizeMode( currentBox.nightRange.unit ) }}</span>
             </div>
             <span class="temp-info">Max.</span>
           </div>
@@ -131,11 +131,11 @@
       </div>
     </div>
 
-    <div class="current  text-center" v-if="currentBox && currentBox.nowData">
+    <div class="current  text-center" v-if="currentBox && currentBox.current">
       <div class="box-temp">
         <div class="temp-container">
-          <span class="temp">{{ currentBox.nowData.current.toFixed( 1 ) }}</span>
-          <span class="unity">{{ humanizeMode( currentBox.nowData.unit ) }}</span>
+          <span class="temp">{{ currentBox.current.current.toFixed( 1 ) }}</span>
+          <span class="unity">{{ humanizeMode( currentBox.current.unit ) }}</span>
         </div>
         <span class="temp-info">Current</span>
       </div>
@@ -147,8 +147,8 @@
 </template>
 
 <script lang="ts">
-import BoxSensor               from '@/models/HouseSensors/BoxSensor';
-import BoxSensorData           from '@/models/HouseSensors/BoxSensorData';
+import Sensor                  from '@/models/HouseSensors/BoxSensor';
+import SensorRange             from '@/models/HouseSensors/BoxSensorData';
 import { HouseSensorProvider } from '@/providers/houseSensor.provider';
 import { Component, Vue }      from 'vue-property-decorator';
 
@@ -183,10 +183,10 @@ export default class HouseSensor extends Vue {
       type: 'datetime'
     }
   };
-  public series: object[]              = [];
-  public sensors?: { [ key: string ]: BoxSensor };
-  public currentBox?: BoxSensor | null = null;
-  public mode: string                  = HouseSensor.MODE_TEMPERATURE;
+  public series: object[]           = [];
+  public sensors?: { [ key: string ]: Sensor };
+  public currentBox?: Sensor | null = null;
+  public mode: string               = HouseSensor.MODE_TEMPERATURE;
   public hsp: HouseSensorProvider      = new HouseSensorProvider();
 
   private pendingUpdate: number | undefined;
@@ -196,7 +196,7 @@ export default class HouseSensor extends Vue {
   mounted() {
     this.hsp
         .getSensorsList()
-        .then( ( list: { [ key: string ]: BoxSensor } ) => {
+        .then( ( list: { [ key: string ]: Sensor } ) => {
           this.sensors = list;
         } )
         .then( () => {
@@ -234,7 +234,7 @@ export default class HouseSensor extends Vue {
     }
   }
 
-  public changeBox( box: BoxSensor ) {
+  public changeBox( box: Sensor ) {
     clearTimeout( this.pendingUpdate );
 
     this.currentBox = box;
@@ -261,19 +261,19 @@ export default class HouseSensor extends Vue {
   public changeSensorsData( dataIn: any ) {
     if ( this.currentBox ) {
 
-      this.currentBox.monthData = new BoxSensorData(
+      this.currentBox.monthData = new SensorRange(
           'Month', dataIn.unit, dataIn.month.min, dataIn.month.max, dataIn.month.avg
       );
 
-      this.currentBox.dayData = new BoxSensorData(
+      this.currentBox.dayData = new SensorRange(
           'Day', dataIn.unit, dataIn.day.min, dataIn.day.max, dataIn.day.avg
       );
 
-      this.currentBox.nightData = new BoxSensorData(
+      this.currentBox.nightData = new SensorRange(
           'Night', dataIn.unit, dataIn.night.min, dataIn.night.max, dataIn.night.avg
       );
 
-      this.currentBox.nowData = new BoxSensorData(
+      this.currentBox.nowData = new SensorRange(
           'Now', dataIn.unit, 0, 0, 0, dataIn.current
       );
     }

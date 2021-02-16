@@ -5,7 +5,7 @@
  * Date: 	30/01/2021
  * Time: 	18:26
  */
-import BoxSensor    from '@/models/HouseSensors/BoxSensor';
+import Sensor       from '@/models/Sensors/Sensor';
 import { Provider } from '@/providers/provider';
 import axios        from 'axios';
 
@@ -19,11 +19,11 @@ export class HouseSensorProvider extends Provider {
 		return axios.get( this.path( '' ) )
 		            .then( ( data: any ) => {
 			
-			            const sensorsRaw                         = data.data;
-			            let list: { [ key: string ]: BoxSensor } = {};
+			            const sensorsRaw                      = data.data;
+			            let list: { [ key: string ]: Sensor } = {};
 			
 			            sensorsRaw.forEach( ( sensor: any ) => {
-				            list[ sensor.id ] = new BoxSensor( sensor.name, sensor.id );
+				            // list[ sensor.id ] = new Sensor( sensor.name, sensor.id );
 			            } );
 			
 			            return list;

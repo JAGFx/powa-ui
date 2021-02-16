@@ -1,14 +1,14 @@
 /**
  * @author:	Emmanuel SMITH <hey@emmanuel-smith.me>
  * project:	powa
- * file: 	house-sensor.scss
+ * file: 	house-currentSensor.scss
  * Date: 	28/01/2021
  * Time: 	21:40
  */
 
 @import "variables";
 
-#house-sensor {
+.sensor {
 	height: 100vh;
 	
 	header {
@@ -29,7 +29,7 @@
 	}
 	
 	.nav.nav-pills {
-		font-family: 'Roboto', sans-serif !important;
+		font-family: "Roboto", sans-serif !important;
 		
 		a {
 			color:          $cWhite;
