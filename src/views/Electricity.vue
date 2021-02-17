@@ -1,5 +1,5 @@
 <template>
-  <SensorBase :target_unit="targetUnit"></SensorBase>
+  <SensorBase :target_unit="targetUnit" class="electricity"></SensorBase>
 </template>
 
 <script lang="ts">
@@ -16,3 +16,11 @@ export default class Electricity extends Vue {
   public targetUnit: string = Sensor.UNIT_WATT_HOUR;
 }
 </script>
+
+<style lang="scss">
+@import "../assets/scss/variables";
+@import "../assets/scss/sensor.mixin";
+
+@include sensor("electricity", $cElcAccent1, $cElcAccent2, $cElcAccent3);
+
+</style>

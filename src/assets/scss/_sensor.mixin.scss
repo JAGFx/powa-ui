@@ -1,0 +1,158 @@
+/**
+ * @author:	Emmanuel SMITH <hey@emmanuel-smith.me>
+ * project:	powa
+ * file: 	_sensor.mixin.scss
+ * Date: 	17/02/2021
+ * Time: 	20:33
+ */
+
+@mixin sensor( $name, $colorAccent1, $colorAccent2, $colorAccent3 ) {
+	.sensor.#{$name} {
+		height:     100vh;
+		//&.electricity {
+		//	#{$colorAccent1}:#{$colorAccent2};
+		//	#{$colorAccent2}:#{$colorAccent3};
+		//	//background: linear-gradient(to bottom right, #{$colorAccent1}, #{$colorAccent2}) fixed;
+		//}
+		//
+		//&.light {
+		//	background: linear-gradient(to bottom right, #F7FB3E, #FB6C6A) fixed;
+		//}
+		//
+		//&.temperature {
+		//	background: linear-gradient(to bottom right, #FAB293, #6A28AB) fixed;
+		//}
+		
+		background: linear-gradient(to bottom right, #{$colorAccent1}, #{$colorAccent2}) fixed;
+		
+		header {
+			background:     transparentize($cWhite, .95);
+			border-bottom:  1px solid transparentize($cWhite, .80);
+			text-align:     center;
+			text-transform: uppercase;
+			letter-spacing: .6rem;
+			color:          $cWhite;
+			height:         3rem;
+			
+			h3 {font-size: 1rem !important;}
+			
+			img { opacity: .2; }
+			
+			.right img {
+				transform: rotateZ(180deg);
+			}
+		}
+		
+		.nav.nav-pills {
+			font-family: "Roboto", sans-serif !important;
+			
+			a {
+				color:          $cWhite;
+				padding:        0.2rem .7rem 0.2rem 1rem;
+				border-radius:  1rem;
+				letter-spacing: 0.3rem;
+				font-weight:    300;
+				text-align:     center;
+				border:         2px solid transparent;
+				margin-left:    .5rem;
+				margin-right:   .5rem;
+				cursor:         pointer;
+				
+				font-size:      .8rem;
+				
+				&.active {
+					border-color: #{$colorAccent3};
+					background:   transparentize($cWhite, .87);
+				}
+			}
+		}
+		
+		.avg {
+			.month, .day, .night { position: relative }
+			
+			
+			h4 {
+				color:          $cWhite;
+				letter-spacing: .6rem;
+				font-weight:    300;
+				text-align:     center;
+				height:         3rem;
+				
+				font-size:      .8rem;
+				
+				img { max-height: 2rem; }
+			}
+			
+			.h-line {
+				position:   absolute;
+				right:      0;
+				top:        50%;
+				width:      1px;
+				height:     90%;
+				background: transparentize($cWhite, .5);
+				transform:  translateY(-50%);
+			}
+		}
+		
+		.box-temp {
+			&.small-box {
+				.temp-container {
+					font-size: 1rem !important;
+					
+					sup {
+						top:  -0.4rem;
+						left: -0.2rem;
+					}
+				}
+				
+				.temp-info {
+					top: -.4rem;
+				}
+			}
+			
+			
+			.temp-container {
+				color:       $cWhite;
+				font-weight: 100;
+				position:    relative;
+				
+				font-size:   2rem;
+				
+				span:not( .temp ) {
+					font-weight: normal;
+					color:       #{$colorAccent3};
+					position:    relative;
+					top:         -.3rem;
+					/*left:        -.6rem;*/
+					
+					font-size:   75%;
+				}
+			}
+			
+			.temp-info {
+				color:       #{$colorAccent3};
+				font-weight: 300;
+				font-size:   1.25rem;
+				opacity:     .5;
+				top:         -1rem;
+				position:    relative;
+			}
+		}
+		
+		.current .box-temp {
+			.temp-container {
+				font-size: 4rem !important;
+				
+				span:not( .temp ) {
+					top: -.7rem;
+					//left: -1.7rem;
+				}
+			}
+			
+			.temp-info {
+				font-size: 2.6875rem;
+				top:       -1.6rem;
+			}
+		}
+	}
+}

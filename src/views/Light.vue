@@ -1,5 +1,5 @@
 <template>
-  <SensorBase :target_unit="targetUnit"></SensorBase>
+  <SensorBase :target_unit="targetUnit" class="light"></SensorBase>
 </template>
 
 <script lang="ts">
@@ -16,3 +16,11 @@ export default class Light extends Vue {
   public targetUnit: string = Sensor.UNIT_LUMINOSITY;
 }
 </script>
+
+<style lang="scss">
+@import "../assets/scss/variables";
+@import "../assets/scss/sensor.mixin";
+
+@include sensor("light", $cLuxAccent1, $cLuxAccent2, $cLuxAccent3);
+
+</style>

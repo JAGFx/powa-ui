@@ -6,7 +6,19 @@
  * Time: 	21:06
  */
 
-$cWhite: #FFF;
-$cAccent1: #175086;
-$cAccent2: #00A3AC;
-$cAccent3: #FBAF5D;
+$cWhite:       #FFF;
+$cAccent1:     #175086;
+$cAccent2:     #00A3AC;
+$cAccent3:     #FBAF5D;
+
+$cElcAccent1:  $cAccent1;
+$cElcAccent2:  $cAccent2;
+$cElcAccent3:  $cAccent3;
+
+$cLuxAccent1:  #1E7883;
+$cLuxAccent2:  #EE7236;
+$cLuxAccent3:  $cAccent3;
+
+$cTempAccent1: #6A28AB;
+$cTempAccent2: #FAB293;
+$cTempAccent3: $cAccent3;

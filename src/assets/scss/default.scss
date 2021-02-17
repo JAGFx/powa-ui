@@ -11,24 +11,42 @@
 #default {
 	//background: #2C3E50;
 	.mode {
-		max-height: 10rem;
-		min-height: 10rem;
-		max-width: 10rem;
-		min-width: 10rem;
-		margin: 1rem;
-		display: flex;
+		max-height:      10rem;
+		min-height:      10rem;
+		max-width:       10rem;
+		min-width:       10rem;
+		margin:          1rem;
+		display:         flex;
 		justify-content: center;
-		align-items: center;
-		background:     transparentize($cWhite, .95);
-		border:  1px solid transparentize($cWhite, .80);
-		border-radius: .3rem;
-		color:          $cWhite;
+		align-items:     center;
+		background:      transparentize($cWhite, .95);
+		border:          1px solid transparentize($cWhite, .80);
+		border-radius:   .3rem;
+		color:           $cWhite;
 		
-		&:hover, &:active{
+		&.electricity {
+			background: transparentize($cWhite, .95);
+			border:     1px solid transparentize($cWhite, .80);
+			color:      $cWhite;
+		}
+		
+		&.light {
+			background: linear-gradient(to bottom right, $cLuxAccent1, $cLuxAccent2) fixed;
+			border:     1px solid transparentize($cLuxAccent3, .80);
+			color:      $cWhite;
+		}
+		
+		&.temperature {
+			background: linear-gradient(to bottom right, $cTempAccent1, $cTempAccent2) fixed;
+			border:     1px solid transparentize($cTempAccent3, .80);
+			color:      $cWhite;
+		}
+		
+		&:hover, &:active {
 			text-decoration: none;
-			cursor: pointer;
-			background:     transparentize($cWhite, .85);
-			border-color: $cAccent3;
+			cursor:          pointer;
+			background:      transparentize($cWhite, .85);
+			border-color:    $cAccent3;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 // import Home from '../views/Home.vue'
-import Default                    from '@/components/Default.vue';
+import Default                    from '@/views/Default.vue';
 import Electricity                from '@/views/Electricity.vue';
 import Light                      from '@/views/Light.vue';
 import Temperature                from '@/views/Temperature.vue';

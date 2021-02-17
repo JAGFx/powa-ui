@@ -24,22 +24,22 @@
     <!--      </ul>-->
     <!--    </div>-->
 
-    <div class="month-nav">
-      <ul class="nav nav-pills justify-content-center px-4 py-3">
-        <li class="nav-item"><a class="nav-link type-data">Jan.</a></li>
-        <li class="nav-item"><a class="nav-link type-data">Feb.</a></li>
-        <li class="nav-item"><a class="nav-link type-data">Mar.</a></li>
-        <li class="nav-item"><a class="nav-link type-data">Apr.</a></li>
-        <li class="nav-item"><a class="nav-link type-data">May</a></li>
-        <li class="nav-item"><a class="nav-link type-data">Jun.</a></li>
-        <li class="nav-item"><a class="nav-link type-data">Jul.</a></li>
-        <li class="nav-item"><a class="nav-link type-data">Aug.</a></li>
-        <li class="nav-item"><a class="nav-link type-data">Sept.</a></li>
-        <li class="nav-item"><a class="nav-link type-data">Oct.</a></li>
-        <li class="nav-item"><a class="nav-link type-data">Nov.</a></li>
-        <li class="nav-item"><a class="nav-link type-data">Dec.</a></li>
-      </ul>
-    </div>
+    <!--    <div class="month-nav">-->
+    <!--      <ul class="nav nav-pills justify-content-center px-4 py-3">-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Jan.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Feb.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Mar.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Apr.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">May</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Jun.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Jul.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Aug.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Sept.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Oct.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Nov.</a></li>-->
+    <!--        <li class="nav-item"><a class="nav-link type-data">Dec.</a></li>-->
+    <!--      </ul>-->
+    <!--    </div>-->
 
 
     <div class="avg d-flex justify-content-center align-items-center" v-if="currentSensor">
@@ -202,11 +202,10 @@ export default class SensorBase extends Vue {
   //     ]
   //   } ];
 
-  // --
+  // ---------------------------
+  // ---- VueJS components
 
   @Prop( { default: Sensor.UNIT_WATT_HOUR } ) private target_unit!: string;
-
-  // --
 
   mounted() {
     this.sensorProvider
@@ -215,7 +214,6 @@ export default class SensorBase extends Vue {
           this.sensors = list;
         } )
         .then( () => {
-          // console.log( this.sensors );
           if ( this.sensors && this.sensorsLength() > 0 ) {
             const firstSensorID = Object.keys( this.sensors )[ 0 ];
 
@@ -225,10 +223,13 @@ export default class SensorBase extends Vue {
   }
 
   destroy() {
-    clearTimeout( this.pendingUpdate );
+    this.stopAutoRefreshData();
   }
 
-  // --
+  // ---- ./VueJS components
+
+  // ---------------------------
+  // ---- Data methods
 
   public sensorsLength() {
     return ( this.sensors )
@@ -237,11 +238,10 @@ export default class SensorBase extends Vue {
   }
 
   public changeSensor( sensor: Sensor ) {
-    clearTimeout( this.pendingUpdate );
-
     this.currentSensor = sensor;
 
-    this.initFetchingSensorData();
+    this.stopAutoRefreshData();
+    this.enableAutoRefreshData();
   }
 
   public updateSensorData( id: string ) {
@@ -256,14 +256,22 @@ export default class SensorBase extends Vue {
                } );
   }
 
-  public initFetchingSensorData() {
+  public enableAutoRefreshData() {
     if ( this.currentSensor )
-      this.updateSensorData( this.currentSensor.id )
-          // .then( this.updateDayHistories )
-          .then( () => this.pendingUpdate = setTimeout( this.initFetchingSensorData, SensorBase.REFRESH_INTERVAL ) );
+      this.pendingUpdate = setTimeout( () => {
+        if ( this.currentSensor )
+          this.updateSensorData( this.currentSensor.id );
+      }, SensorBase.REFRESH_INTERVAL );
   }
 
-  // --
+  public stopAutoRefreshData() {
+    clearTimeout( this.pendingUpdate );
+  }
+
+  // ---- ./Data methods
+
+  // ---------------------------
+  // ---- View methods
 
   public switchSensor( way: boolean ) {
     if ( this.sensors && this.currentSensor ) {
@@ -283,9 +291,8 @@ export default class SensorBase extends Vue {
       this.changeSensor( this.sensors[ sensorsKeys[ nextIndex ] ] );
     }
   }
+
+  // ---- ./View methods
+
 }
 </script>
-
-<style lang="scss" scoped>
-@import "../assets/scss/sensor";
-</style>
