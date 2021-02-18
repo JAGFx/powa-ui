@@ -2,7 +2,7 @@
   "name": "powa",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
+  "scripts":      {
     "app:dev" :  "vue-cli-service serve",
     "app:prod" : "vue-cli-service build"
   },
@@ -11,6 +11,8 @@
     "axios" :                   "^0.21.1",
     "bootstrap" :               "^4.6.0",
     "core-js" :                 "^3.6.5",
+    "jquery" :                  "^3.5.1",
+    "popper.js" :               "^1.16.1",
     "register-service-worker" : "^1.7.1",
     "vue" :                     "^2.6.11",
     "vue-apexcharts" :          "^1.6.0",

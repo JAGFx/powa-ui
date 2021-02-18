@@ -25,23 +25,6 @@
 		
 		background: linear-gradient(to bottom right, #{$colorAccent1}, #{$colorAccent2}) fixed;
 		
-		header {
-			background:     transparentize($cWhite, .95);
-			border-bottom:  1px solid transparentize($cWhite, .80);
-			text-align:     center;
-			text-transform: uppercase;
-			letter-spacing: .6rem;
-			color:          $cWhite;
-			height:         3rem;
-			
-			h3 {font-size: 1rem !important;}
-			
-			img { opacity: .2; }
-			
-			.right img {
-				transform: rotateZ(180deg);
-			}
-		}
 		
 		.nav.nav-pills {
 			font-family: "Roboto", sans-serif !important;

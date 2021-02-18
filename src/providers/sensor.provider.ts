@@ -17,7 +17,7 @@ export class SensorProvider extends Provider {
 	
 	// --
 	
-	public getSensorsList( unit: string ) {
+	public getSensorsList( unit?: string ) {
 		return axios.get( this.path( `?unit=${ unit }` ) )
 		            .then( ( data: any ) => {
 			

@@ -25,21 +25,9 @@ export default class Sensor {
 		this._name       = name;
 		this._id         = id;
 		this._unit       = unit;
-		this._monthRange = new SensorRange(
-			0,
-			0,
-			0
-		);
-		this._dayRange   = new SensorRange(
-			0,
-			0,
-			0
-		);
-		this._nightRange = new SensorRange(
-			0,
-			0,
-			0
-		);
+		this._monthRange = new SensorRange( 0, 0, 0 );
+		this._dayRange   = new SensorRange( 0, 0, 0 );
+		this._nightRange = new SensorRange( 0, 0, 0 );
 		this._current    = 0;
 	}
 	
@@ -59,6 +47,10 @@ export default class Sensor {
 	
 	set name( value: string ) {
 		this._name = value;
+	}
+	
+	get unit(): string {
+		return this._unit;
 	}
 	
 	get monthRange(): SensorRange | undefined {
@@ -106,5 +98,19 @@ export default class Sensor {
 			return 'wh';
 		
 		else return '';
+	}
+	
+	// --
+	
+	public isElectricity(): boolean {
+		return this.unit === Sensor.UNIT_WATT_HOUR;
+	}
+	
+	public isTemperature(): boolean {
+		return this.unit === Sensor.UNIT_TEMPERATURE;
+	}
+	
+	public isLight(): boolean {
+		return this.unit === Sensor.UNIT_LUMINOSITY;
 	}
 }

@@ -1,0 +1,127 @@
+/**
+ * @author:	Emmanuel SMITH <hey@emmanuel-smith.me>
+ * project:	powa
+ * file: 	_zone.scss
+ * Date: 	18/02/2021
+ * Time: 	13:30
+ */
+
+@import "variables";
+@import "header";
+
+ul.zone-wrapper, ul.zone-wrapper > ul, li {
+	list-style: none;
+	padding:    0;
+	margin:     0;
+}
+
+.zone {
+	.z-title {
+		background:          transparentize($cWhite, .95);
+		border:              1px solid transparentize($cWhite, .80);
+		border-bottom-color: transparent;
+		padding:             .5rem .7rem;
+		//border-radius:   .3rem;
+		
+		display:             flex;
+		justify-content:     space-between;
+		align-items:         center;
+		
+		> span { width: 100%; }
+		
+		//> span {
+		//	display: flex;
+		//	width: 100%;
+		//	justify-content: space-between;
+		//	align-items: center;
+		//}
+	}
+	
+	.z-badge {
+		display:       inline-block;
+		//font-weight: bold;
+		padding:       .2rem .4rem;
+		border-radius: .3rem;
+		margin-right:  .5rem;
+		
+		&.elc { background: $cElcAccent1; }
+		
+		&.lux { background: $cLuxAccent1; }
+		
+		&.temp { background: $cTempAccent1; }
+	}
+	
+	.z-title-status {
+		background:    $cAccent3;
+		border-radius: 100%;
+		width:         1rem;
+		max-width:     1rem;
+		min-width:     1rem;
+		height:        1rem;
+		max-height:    1rem;
+		min-height:    1rem;
+		display:       block;
+		margin-right:  1rem;
+		
+		&.off {
+			background: transparentize($cWhite, .80);
+		}
+	}
+	
+	.z-title-action {
+		width:           100%;
+		display:         flex;
+		justify-content: flex-end;
+		align-items:     center;
+		//min-width: 2.5rem;
+		//max-width: 2.5rem;
+		//min-height: 1rem;
+		//max-height: 1rem;
+		
+		button {
+			background:      transparent;
+			border:          0;
+			outline:         none;
+			color:           $cWhite;
+			display:         flex;
+			justify-content: center;
+			align-items:     center;
+			
+			&:hover, &:active {
+				background: transparentize($cWhite, .95);
+				color:      $cAccent3;
+			}
+		}
+	}
+	
+	.z-body {
+		background: transparentize($cWhite, .8);
+		display:    none;
+		padding:    0;
+		
+		span {
+			width: 100%;
+		}
+		
+		li {
+			border-bottom:   1px solid transparentize($cWhite, .80);
+			padding:         .5rem .7rem;
+			display:         flex;
+			justify-content: space-between;
+			align-items:     center;
+			
+			
+			&:last-child { border: 0; }
+		}
+	}
+	
+	&.open {
+		
+		> .z-title { border-color: $cAccent3; }
+		
+		> .z-body { display: block; }
+	}
+	
+	&:last-child > .z-title { border-bottom-color: transparentize($cWhite, .80); }
+	
+}

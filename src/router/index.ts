@@ -2,6 +2,7 @@
 import Default                    from '@/views/Default.vue';
 import Electricity                from '@/views/Electricity.vue';
 import Light                      from '@/views/Light.vue';
+import Settings                   from '@/views/Settings.vue';
 import Temperature                from '@/views/Temperature.vue';
 import Vue                        from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
@@ -28,6 +29,11 @@ const routes: Array<RouteConfig> = [
 		path:      '/temperature',
 		name:      'Temperature',
 		component: Temperature
+	},
+	{
+		path:      '/settings',
+		name:      'Settings',
+		component: Settings
 	}
 ];
 

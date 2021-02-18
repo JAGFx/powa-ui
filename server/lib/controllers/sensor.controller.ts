@@ -40,7 +40,11 @@ export class SensorController {
 	// --
 	
 	public getList( req: Request, res: Response ) {
-		res.json( SensorController.SENSORS.filter( s => s.unit === req.query.unit ) );
+		const data = ( req.query.unit == 'undefined' )
+		             ? SensorController.SENSORS
+		             : SensorController.SENSORS.filter( s => s.unit === req.query.unit );
+		
+		res.json( data );
 	}
 	
 	public getData( req: Request, res: Response ) {

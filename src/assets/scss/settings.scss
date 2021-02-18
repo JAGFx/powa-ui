@@ -1,0 +1,18 @@
+/**
+ * @author:	Emmanuel SMITH <hey@emmanuel-smith.me>
+ * project:	powa
+ * file: 	default.scss
+ * Date: 	28/01/2021
+ * Time: 	20:43
+ */
+
+@import "~bootstrap";
+@import "variables";
+
+.settings {
+	color: $cWhite;
+	
+	.top {
+		text-align: center;
+	}
+}
