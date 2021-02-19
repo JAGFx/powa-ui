@@ -55,4 +55,25 @@ export class SensorProvider extends Provider {
 			            return sensor;
 		            } );
 	}
+	
+	public postSensor( sensor: Sensor ) {
+		return axios.post( this.path( `` ), sensor )
+		            .then( ( data: any ) => {
+			            console.log( data );
+		            } );
+	}
+	
+	public patchSensor( sensor: Sensor ) {
+		return axios.post( this.path( `${ sensor.id }` ), sensor )
+		            .then( ( data: any ) => {
+			            console.log( data );
+		            } );
+	}
+	
+	public deleteSensor( sensorID: string ) {
+		return axios.delete( this.path( `${ sensorID }` ) )
+		            .then( ( data: any ) => {
+			            console.log( data );
+		            } );
+	}
 }

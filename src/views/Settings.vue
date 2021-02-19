@@ -15,19 +15,19 @@
         <span>Sensors</span>
       </template>
       <template v-slot:z-title-action>
-        <button>+</button>
+        <router-link class="button" to="/sensors/new">+</router-link>
       </template>
       <template v-slot:z-body>
         <li v-for="sensor in sensors" :key="sensor.id">
-          <small class="z-badge elc" v-if="sensor.isElectricity()">Electricity</small>
-          <small class="z-badge lux" v-else-if="sensor.isLight()">Light</small>
-          <small class="z-badge temp" v-else-if="sensor.isTemperature()">Temperature</small>
+          <small class="z-badge electricity" v-if="sensor.isElectricity()">Electricity</small>
+          <small class="z-badge light" v-else-if="sensor.isLight()">Light</small>
+          <small class="z-badge temperature" v-else-if="sensor.isTemperature()">Temperature</small>
           <span>{{ sensor.name }}</span>
           <span class="z-title-action">
             <span class="z-title-status"></span>
-            <button>see</button>
-            <button>edi</button>
-            <button>-</button>
+            <!--            <button>see</button>-->
+            <router-link class="button" :to="`/sensors/${sensor.id}/edit`">edit</router-link>
+            <button @click="onClickDelete( sensor.id )">-</button>
           </span>
         </li>
       </template>
@@ -56,6 +56,14 @@ export default class Settings extends Vue {
         .getSensorsList()
         .then( ( list: { [ key: string ]: Sensor } ) => {
           this.sensors = list;
+        } );
+  }
+
+  public onClickDelete( sensorID: string ) {
+    this.sensorProvider
+        .deleteSensor( sensorID )
+        .then( () => {
+          alert( 'OK !' );
         } );
   }
 }

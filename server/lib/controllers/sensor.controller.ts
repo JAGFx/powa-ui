@@ -101,4 +101,18 @@ export class SensorController {
 		
 		res.json( req.body );
 	}
+	
+	public patchData( req: Request, res: Response ) {
+		console.log( req.params.target, req.body );
+		
+		res.json( req.body );
+	}
+	
+	public delete( req: Request, res: Response ) {
+		console.log( req.params.target, req.body );
+		
+		res.status( 204 )
+		   .end();
+		// res.json( {} );
+	}
 }

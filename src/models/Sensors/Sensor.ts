@@ -13,13 +13,14 @@ export default class Sensor {
 	public static readonly UNIT_LUMINOSITY: string  = 'unit-lux';
 	public static readonly UNIT_WATT_HOUR: string   = 'unit-wh';
 	
-	protected _name: string;
-	protected _id: string;
-	protected _unit: string;
-	protected _monthRange?: SensorRange | undefined;
-	protected _dayRange?: SensorRange | undefined;
-	protected _nightRange?: SensorRange | undefined;
-	protected _current?: number | undefined;
+	private _name: string;
+	private _uid: number  = -1;
+	private _id: string;
+	private _unit: string = Sensor.UNIT_WATT_HOUR;
+	private _monthRange?: SensorRange | undefined;
+	private _dayRange?: SensorRange | undefined;
+	private _nightRange?: SensorRange | undefined;
+	private _current?: number | undefined;
 	
 	public constructor( name: string, id: string, unit: string ) {
 		this._name       = name;
@@ -41,6 +42,14 @@ export default class Sensor {
 		this._id = value;
 	}
 	
+	get uid(): number {
+		return this._uid;
+	}
+	
+	set uid( value: number ) {
+		this._uid = value;
+	}
+	
 	get name(): string {
 		return this._name;
 	}
@@ -51,6 +60,10 @@ export default class Sensor {
 	
 	get unit(): string {
 		return this._unit;
+	}
+	
+	set unit( value: string ) {
+		this._unit = value;
 	}
 	
 	get monthRange(): SensorRange | undefined {

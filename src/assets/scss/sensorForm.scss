@@ -1,0 +1,38 @@
+/**
+ * @author:	Emmanuel SMITH <hey@emmanuel-smith.me>
+ * project:	powa
+ * file: 	sensorForm.scss
+ * Date: 	19/02/2021
+ * Time: 	13:42
+ */
+
+@import "variables";
+
+.sensor-form {
+	color: $cWhite;
+	
+	form {
+		padding: 1rem;
+		
+		.f-row {
+			display:        flex;
+			flex-direction: column;
+			margin-bottom:  1rem;
+			
+			label {
+				display: block;
+			}
+			
+			.f-control {
+				background:    transparentize($cWhite, .95);
+				border:        1px solid transparentize($cWhite, .80);
+				border-radius: .3rem;
+				color:         $cWhite;
+				outline:       none;
+				padding:       .5rem 1rem;
+			}
+			
+			&:last-child { margin: 0; }
+		}
+	}
+}

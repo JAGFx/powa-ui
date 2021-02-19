@@ -23,7 +23,9 @@ export class Routes {
 		app.route( '/api/sensors' ).get( this.sensCtrl.getList );
 		app.route( '/api/sensors/histories' ).get( this.sensCtrl.getDayHistories );
 		app.route( '/api/sensors/:target' ).get( this.sensCtrl.getData );
-		app.route( '/api/sensors/:target' ).post( this.sensCtrl.postData );
+		app.route( '/api/sensors' ).post( this.sensCtrl.postData );
+		app.route( '/api/sensors/:target' ).patch( this.sensCtrl.patchData );
+		app.route( '/api/sensors/:target' ).delete( this.sensCtrl.delete );
 		
 		// --- Electricity
 		// app.route( '/api/electricity/:target' ).post( this.elCtrl.postData );

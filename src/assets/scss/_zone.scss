@@ -44,11 +44,23 @@ ul.zone-wrapper, ul.zone-wrapper > ul, li {
 		border-radius: .3rem;
 		margin-right:  .5rem;
 		
-		&.elc { background: $cElcAccent1; }
+		&.electricity {
+			background: transparentize($cWhite, .95);
+			border:     1px solid transparentize($cWhite, .80);
+			color:      $cWhite;
+		}
 		
-		&.lux { background: $cLuxAccent1; }
+		&.light {
+			background: linear-gradient(to bottom, $cLuxAccent1, $cLuxAccent2) fixed;
+			border:     1px solid transparentize($cLuxAccent3, .80);
+			color:      $cWhite;
+		}
 		
-		&.temp { background: $cTempAccent1; }
+		&.temperature {
+			background: linear-gradient(to bottom, $cTempAccent1, $cTempAccent2) fixed;
+			border:     1px solid transparentize($cTempAccent3, .80);
+			color:      $cWhite;
+		}
 	}
 	
 	.z-title-status {
@@ -78,7 +90,7 @@ ul.zone-wrapper, ul.zone-wrapper > ul, li {
 		//min-height: 1rem;
 		//max-height: 1rem;
 		
-		button {
+		button, .button {
 			background:      transparent;
 			border:          0;
 			outline:         none;
