@@ -73,15 +73,17 @@ export class SensorController {
 		} ) );
 	}
 	
-	public getDayHistories( req: Request, res: Response ) {
+	public getSensorHistories( req: Request, res: Response ) {
 		// req.query.unit
+		console.log( req.params.target );
+		
 		const rand = ( min: number, max: number ) => {
 			return Math.random() * ( max - min ) + min;
 		};
 		
 		const d = [
 			{
-				name: 'Feb. ' + req.query.unit,
+				name: 'Feb. ' + req.params.target,
 				data: [
 					[ 1486684800000, rand( 0, 100 ) ],
 					[ 1486771200000, rand( 0, 100 ) ],

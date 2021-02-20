@@ -143,7 +143,9 @@
       </div>
     </div>
 
-    <!--    <apexchart type="area" width="100%" height="250rem" :options="options" :series="series"></apexchart>-->
+    <apexchart :type="chartType" width="100%" height="250rem" :options="chartOptions" :series="chartData"></apexchart>
+
+    <small class="last-update">{{ lastUpdate }}</small>
 
   </div>
 </template>
@@ -163,49 +165,32 @@ export default class SensorBase extends Vue {
   public currentSensor?: Sensor | null  = null;
   public sensorProvider: SensorProvider = new SensorProvider();
   public pendingUpdate: number | undefined;
-
-  // public options: object  = {
-  //   chart:  {
-  //     sparkline: {
-  //       enabled: true
-  //     }
-  //   },
-  //   fill:   {
-  //     colors:   '#00A3AC',
-  //     type:     'gradient',
-  //     gradient: {
-  //       gradientFromColors: [ '#00A3AC' ],
-  //       opacityFrom:        1,
-  //       opacityTo:          0
-  //     }
-  //   },
-  //   stroke: {
-  //     show:   true,
-  //     curve:  'smooth',
-  //     colors: [ '#FFFFFF80' ],
-  //     width:  2
-  //   },
-  //   xaxis:  {
-  //     type: 'datetime'
-  //   }
-  // };
-  // public series: object[] = [
-  //   {
-  //     name: 'Feb. ',
-  //     data: [
-  //       [ 1486684800000, 52 ],
-  //       [ 1486771200000, 45 ],
-  //       [ 1486857600000, 87 ],
-  //       [ 1486944000000, 1 ],
-  //       [ 1487030400000, 62 ],
-  //       [ 1487116800000, 12 ]
-  //     ]
-  //   } ];
+  public lastUpdate: Date               = new Date();
+  public chartData: object[]            = [
+    {
+      name: 'Feb. ',
+      data: [
+        [ 1486684800000, 52 ],
+        [ 1486771200000, 45 ],
+        [ 1486857600000, 87 ],
+        [ 1486944000000, 1 ],
+        [ 1487030400000, 62 ],
+        [ 1487116800000, 12 ]
+      ]
+    } ];
 
   // ---------------------------
   // ---- VueJS components
 
-  @Prop( { default: Sensor.UNIT_WATT_HOUR } ) private target_unit!: string;
+  @Prop( { default: Sensor.UNIT_WATT_HOUR } )
+  private target_unit!: string;
+
+  @Prop( { default: 'area' } )
+  private chartType!: string;
+
+  @Prop( { default: 'dd' } )
+  private chartColor!: string;
+
 
   mounted() {
     this.sensorProvider
@@ -227,6 +212,34 @@ export default class SensorBase extends Vue {
   }
 
   // ---- ./VueJS components
+
+  get chartOptions(): object {
+    return {
+      chart:  {
+        sparkline: {
+          enabled: true
+        }
+      },
+      fill:   {
+        colors:   this.chartColor,
+        type:     'gradient',
+        gradient: {
+          gradientFromColors: [ this.chartColor ],
+          opacityFrom:        1,
+          opacityTo:          0
+        }
+      },
+      stroke: {
+        show:   true,
+        curve:  'smooth',
+        colors: [ '#FFFFFF80' ],
+        width:  2
+      },
+      xaxis:  {
+        type: 'datetime'
+      }
+    };
+  }
 
   // ---------------------------
   // ---- Data methods
@@ -251,16 +264,29 @@ export default class SensorBase extends Vue {
                  if ( this.currentSensor /*&& this.sensors */ ) {
                    // this.sensors[ sensor.id ] = sensor;
                    this.currentSensor = sensor;
+                   this.lastUpdate    = new Date();
                    // this.changeSensor( sensor );
                  }
                } );
   }
 
+  public updateChartData() {
+    if ( this.currentSensor )
+      this.sensorProvider
+          .getSensorHistories( this.currentSensor.id )
+          .then( ( histories: any ) => {
+            this.chartData = histories;
+          } );
+  }
+
   public enableAutoRefreshData() {
     if ( this.currentSensor )
       this.pendingUpdate = setTimeout( () => {
-        if ( this.currentSensor )
+        if ( this.currentSensor ) {
           this.updateSensorData( this.currentSensor.id );
+          this.updateChartData();
+          this.enableAutoRefreshData();
+        }
       }, SensorBase.REFRESH_INTERVAL );
   }
 

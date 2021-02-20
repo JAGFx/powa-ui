@@ -9,6 +9,7 @@
 @mixin sensor( $name, $colorAccent1, $colorAccent2, $colorAccent3 ) {
 	.sensor.#{$name} {
 		height:     100vh;
+		position:   relative;
 		//&.electricity {
 		//	#{$colorAccent1}:#{$colorAccent2};
 		//	#{$colorAccent2}:#{$colorAccent3};
@@ -24,6 +25,15 @@
 		//}
 		
 		background: linear-gradient(to bottom right, #{$colorAccent1}, #{$colorAccent2}) fixed;
+		
+		.last-update {
+			position: absolute;
+			left:     0;
+			bottom:   0;
+			color:    $cWhite;
+			opacity:  .2;
+			padding:  .5rem;
+		}
 		
 		
 		.nav.nav-pills {

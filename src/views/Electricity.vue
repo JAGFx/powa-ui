@@ -1,5 +1,5 @@
 <template>
-  <SensorBase :target_unit="targetUnit" class="electricity"></SensorBase>
+  <SensorBase :target_unit="targetUnit" chart-color="#00A3AC" class="electricity"></SensorBase>
 </template>
 
 <script lang="ts">

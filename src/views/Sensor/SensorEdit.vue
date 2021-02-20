@@ -24,7 +24,7 @@ export default class SensorEdit extends Vue {
   @Prop()
   public sensor_id!: string;
 
-  public sensor?: Sensor                = null;
+  public sensor: Sensor | null          = null;
   public sensorProvider: SensorProvider = new SensorProvider();
 
   mounted() {

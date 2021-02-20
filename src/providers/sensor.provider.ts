@@ -56,6 +56,14 @@ export class SensorProvider extends Provider {
 		            } );
 	}
 	
+	public getSensorHistories( id: string ) {
+		return axios.get( this.path( `${ id }/histories` ) )
+		            .then( ( data: any ) => {
+			            const raw = data.data;
+			            return raw;
+		            } );
+	}
+	
 	public postSensor( sensor: Sensor ) {
 		return axios.post( this.path( `` ), sensor )
 		            .then( ( data: any ) => {
