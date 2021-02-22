@@ -8,7 +8,8 @@
 
 import { Request, Response } from 'express';
 import { StatusCodes }       from 'http-status-codes';
-import { SensorManager }     from '../manager/sensor.manager';
+import { SensorManager }     from '../managers/sensor.manager';
+import Sensor                from '../models/Sensor';
 import { Controller }        from './Controller';
 
 export class SensorController {
@@ -46,46 +47,67 @@ export class SensorController {
 		const sensorMgr = new SensorManager();
 		sensorMgr.findAllByUnit( <string>req.query.unit )
 		         .then( ( result: any ) => {
-			         console.log( result.rows );
+			         // console.log( result.rows );
 			         Controller.response( res, result.rows );
-		         } );
+		         } )
+		         .catch( ( reason => {
+			         // console.error( 'ERROR', reason );
+			         Controller.response( res, reason, StatusCodes.NO_CONTENT );
+		         } ) );
+	}
+	
+	public getOne( req: Request, res: Response ) {
+		const sensorMgr = new SensorManager();
+		sensorMgr.findOnById( req.params.target )
+		         .then( ( result: any ) => {
+			         // console.log( result );
+			         Controller.response( res, result.rows[ 0 ] );
+		         } )
+		         .catch( ( reason => {
+			         // console.error( 'ERROR', reason );
+			         Controller.response( res, reason, StatusCodes.NOT_FOUND );
+		         } ) );
 	}
 	
 	public postSensor( req: Request, res: Response ) {
-		// console.log( req.body );
-		
 		const sensorMgr = new SensorManager();
-		sensorMgr.create( req.body )
+		const d         = req.body;
+		sensorMgr.create( new Sensor( d._name, d._id, d._unit ) )
 		         .then( ( result: any ) => {
-			         console.log( result.rows );
+			         // console.log( result.rows );
 			         Controller.response( res, req.body );
-		         } );
+		         } )
+		         .catch( ( reason => {
+			         Controller.response( res, reason, StatusCodes.INTERNAL_SERVER_ERROR );
+		         } ) );
 	}
 	
-	public patchData( req: Request, res: Response ) {
-		// console.log( req.params.target, req.body );
-		
-		// TODO Pre-check if it's found
-		
+	public patchSensor( req: Request, res: Response ) {
 		const sensorMgr = new SensorManager();
-		sensorMgr.update( req.body )
-		         .then( ( result: any ) => {
-			         console.log( result.rows );
-			         Controller.response( res, req.body );
-		         } );
+		const d         = req.body;
+		sensorMgr
+			.update( new Sensor( d._name, d._id, d._unit ) )
+			.then( ( result: any ) => {
+				// console.log( 'OK', result );
+				Controller.response( res, req.body );
+			} )
+			.catch( ( reason => {
+				// console.error( 'ERROR', reason );
+				Controller.response( res, reason, StatusCodes.NOT_FOUND );
+			} ) );
 	}
 	
 	public delete( req: Request, res: Response ) {
-		// console.log( req.params.target, req.body );
-		
-		// TODO Pre-check if it's found
-		
 		const sensorMgr = new SensorManager();
 		sensorMgr.remove( req.params.target )
 		         .then( ( result: any ) => {
-			         console.log( result.rows );
+			         // console.log( result.rows );
 			         Controller.response( res, {}, StatusCodes.NO_CONTENT );
-		         } );
+		         } )
+		         .catch( ( reason => {
+			         // console.error( 'ERROR', reason );
+			         Controller.response( res, reason, StatusCodes.NOT_FOUND );
+		         } ) );
 	}
 	
 	// --

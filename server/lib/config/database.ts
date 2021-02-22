@@ -27,6 +27,7 @@ export class Database {
 				    query, params,
 				    ( err, rows, fields ) => {
 					    if ( err ) return reject( err );
+					    if ( rows.affectedRows === 0 ) return reject( 'No rows affected' );
 					
 					    resolve( { rows, fields } );
 					    // console.log( err, rows, fields );

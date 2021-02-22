@@ -19,11 +19,12 @@ export class Routes {
 		
 		// --- Sensor
 		app.route( '/api/sensors' ).get( this.sensCtrl.getList );
-		app.route( '/api/sensors/:target/histories' ).get( this.sensCtrl.getSensorHistories );
-		app.route( '/api/sensors/:target' ).get( this.sensCtrl.getData );
-		app.route( '/api/sensors/data' ).post( this.sensCtrl.postData );
+		app.route( '/api/sensors/:target' ).get( this.sensCtrl.getOne );
 		app.route( '/api/sensors' ).post( this.sensCtrl.postSensor );
-		app.route( '/api/sensors/:target' ).patch( this.sensCtrl.patchData );
+		app.route( '/api/sensors/:target' ).patch( this.sensCtrl.patchSensor );
 		app.route( '/api/sensors/:target' ).delete( this.sensCtrl.delete );
+		
+		app.route( '/api/sensors/:target/histories' ).get( this.sensCtrl.getSensorHistories );
+		app.route( '/api/sensors/data' ).post( this.sensCtrl.postData );
 	}
 }

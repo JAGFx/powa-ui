@@ -22,10 +22,11 @@ export default class Sensor {
 	private _nightRange?: SensorRange | undefined;
 	private _current?: number | undefined;
 	
-	public constructor( name: string, id: string, unit: string ) {
+	public constructor( name: string, id: string, unit: string, uid: number ) {
 		this._name       = name;
 		this._id         = id;
 		this._unit       = unit;
+		this._uid        = uid;
 		this._monthRange = new SensorRange( 0, 0, 0 );
 		this._dayRange   = new SensorRange( 0, 0, 0 );
 		this._nightRange = new SensorRange( 0, 0, 0 );

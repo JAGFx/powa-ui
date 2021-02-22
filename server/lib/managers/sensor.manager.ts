@@ -10,7 +10,7 @@ import Sensor       from '../models/Sensor';
 
 export class SensorManager extends Database {
 	public create( sensor: Sensor ) {
-		const q = 'INSERT INTO sensor (id, name, unit) VALUES (?, ?, ?)';
+		const q = 'INSERT INTO sensor (_id, _name, _unit) VALUES (?, ?, ?)';
 		const p = [
 			sensor.id,
 			sensor.name,
@@ -21,7 +21,7 @@ export class SensorManager extends Database {
 	}
 	
 	public update( sensor: Sensor ) {
-		const q = 'UPDATE sensor SET name = ?, unit = ? WHERE id = ?';
+		const q = 'UPDATE sensor SET _name = ?, _unit = ? WHERE _id = ?';
 		const p = [
 			sensor.name,
 			sensor.unit,
@@ -32,7 +32,7 @@ export class SensorManager extends Database {
 	}
 	
 	public remove( sensorID: string ) {
-		const q = 'DELETE FROM sensor WHERE id = ?';
+		const q = 'DELETE FROM sensor WHERE _id = ?';
 		const p = [
 			sensorID
 		];
@@ -43,22 +43,22 @@ export class SensorManager extends Database {
 	// ---
 	
 	public findOnById( id: string ) {
-		const q = 'SELECT * FROM sensor WHERE id = ?';
+		const q = 'SELECT * FROM sensor WHERE _id = ? LIMIT 1';
 		const p = [ id ];
 		
 		return this.query( q, p );
 	}
 	
 	public findAll() {
-		const q = 'SELECT * FROM sensor ORDER BY name';
+		const q = 'SELECT * FROM sensor ORDER BY _name';
 		
 		return this.query( q );
 	}
 	
 	public findAllByUnit( unit: string ) {
 		const q = ( unit !== undefined )
-		          ? 'SELECT * FROM sensor WHERE unit = ? ORDER BY name'
-		          : 'SELECT * FROM sensor ORDER BY name';
+		          ? 'SELECT * FROM sensor WHERE _unit = ? ORDER BY _name'
+		          : 'SELECT * FROM sensor ORDER BY _name';
 		const p = [ unit ];
 		
 		return this.query( q, p );

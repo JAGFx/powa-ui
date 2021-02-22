@@ -6,7 +6,6 @@
  * Time: 	20:38
  */
 import Sensor       from '@/models/Sensors/Sensor';
-import SensorRange  from '@/models/Sensors/SensorRange';
 import { Provider } from '@/providers/provider';
 import axios        from 'axios';
 
@@ -18,14 +17,17 @@ export class SensorProvider extends Provider {
 	// --
 	
 	public getSensorsList( unit?: string ) {
-		return axios.get( this.path( `?unit=${ unit }` ) )
+		
+		const path = ( unit !== undefined )
+		             ? `?unit=${ unit }`
+		             : '';
+		return axios.get( this.path( path ) )
 		            .then( ( data: any ) => {
-			
-			            const sensorsRaw                      = data.data;
+			            const sensorsRaw                      = data.data.data;
 			            let list: { [ key: string ]: Sensor } = {};
 			
 			            sensorsRaw.forEach( ( sensor: any ) => {
-				            list[ sensor.id ] = new Sensor( sensor.name, sensor.id, sensor.unit );
+				            list[ sensor.id ] = new Sensor( sensor._name, sensor._id, sensor._unit, sensor._uid );
 			            } );
 			
 			            return list;
@@ -35,22 +37,22 @@ export class SensorProvider extends Provider {
 	public getSensorData( id: string ) {
 		return axios.get( this.path( `${ id }` ) )
 		            .then( ( data: any ) => {
-			            const raw = data.data;
+			            const raw = data.data.data;
 			
-			            let sensor        = new Sensor( raw.name, raw.id, raw.unit );
-			            sensor.monthRange = new SensorRange(
-				            raw.month.min,
-				            raw.month.max,
-				            raw.month.avg );
-			            sensor.dayRange   = new SensorRange(
-				            raw.day.min,
-				            raw.day.max,
-				            raw.day.avg );
-			            sensor.nightRange = new SensorRange(
-				            raw.night.min,
-				            raw.night.max,
-				            raw.night.avg );
-			            sensor.current    = raw.current;
+			            let sensor: Sensor = new Sensor( raw._name, raw._id, raw._unit, raw._uid );
+			            // sensor.monthRange = new SensorRange(
+			            //     raw.month.min,
+			            //     raw.month.max,
+			            //     raw.month.avg );
+			            // sensor.dayRange   = new SensorRange(
+			            //     raw.day.min,
+			            //     raw.day.max,
+			            //     raw.day.avg );
+			            // sensor.nightRange = new SensorRange(
+			            //     raw.night.min,
+			            //     raw.night.max,
+			            //     raw.night.avg );
+			            // sensor.current    = raw.current;
 			
 			            return sensor;
 		            } );
@@ -59,7 +61,7 @@ export class SensorProvider extends Provider {
 	public getSensorHistories( id: string ) {
 		return axios.get( this.path( `${ id }/histories` ) )
 		            .then( ( data: any ) => {
-			            const raw = data.data;
+			            const raw = data.data.data;
 			            return raw;
 		            } );
 	}
@@ -72,7 +74,8 @@ export class SensorProvider extends Provider {
 	}
 	
 	public patchSensor( sensor: Sensor ) {
-		return axios.post( this.path( `${ sensor.id }` ), sensor )
+		// console.log( 'patch', sensor );
+		return axios.patch( this.path( `${ sensor.id }` ), sensor )
 		            .then( ( data: any ) => {
 			            console.log( data );
 		            } );
