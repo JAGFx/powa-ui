@@ -7,6 +7,9 @@
  */
 
 import { Request, Response } from 'express';
+import { StatusCodes }       from 'http-status-codes';
+import { SensorManager }     from '../manager/sensor.manager';
+import { Controller }        from './Controller';
 
 export class SensorController {
 	private static readonly SENSORS = [
@@ -37,15 +40,55 @@ export class SensorController {
 		}
 	];
 	
-	// --
+	// -- CRUD
 	
 	public getList( req: Request, res: Response ) {
-		const data = ( req.query.unit == 'undefined' )
-		             ? SensorController.SENSORS
-		             : SensorController.SENSORS.filter( s => s.unit === req.query.unit );
-		
-		res.json( data );
+		const sensorMgr = new SensorManager();
+		sensorMgr.findAllByUnit( <string>req.query.unit )
+		         .then( ( result: any ) => {
+			         console.log( result.rows );
+			         Controller.response( res, result.rows );
+		         } );
 	}
+	
+	public postSensor( req: Request, res: Response ) {
+		// console.log( req.body );
+		
+		const sensorMgr = new SensorManager();
+		sensorMgr.create( req.body )
+		         .then( ( result: any ) => {
+			         console.log( result.rows );
+			         Controller.response( res, req.body );
+		         } );
+	}
+	
+	public patchData( req: Request, res: Response ) {
+		// console.log( req.params.target, req.body );
+		
+		// TODO Pre-check if it's found
+		
+		const sensorMgr = new SensorManager();
+		sensorMgr.update( req.body )
+		         .then( ( result: any ) => {
+			         console.log( result.rows );
+			         Controller.response( res, req.body );
+		         } );
+	}
+	
+	public delete( req: Request, res: Response ) {
+		// console.log( req.params.target, req.body );
+		
+		// TODO Pre-check if it's found
+		
+		const sensorMgr = new SensorManager();
+		sensorMgr.remove( req.params.target )
+		         .then( ( result: any ) => {
+			         console.log( result.rows );
+			         Controller.response( res, {}, StatusCodes.NO_CONTENT );
+		         } );
+	}
+	
+	// --
 	
 	public getData( req: Request, res: Response ) {
 		const rand = ( min: number, max: number ) => {
@@ -102,19 +145,5 @@ export class SensorController {
 		console.log( req.body );
 		
 		res.json( req.body );
-	}
-	
-	public patchData( req: Request, res: Response ) {
-		console.log( req.params.target, req.body );
-		
-		res.json( req.body );
-	}
-	
-	public delete( req: Request, res: Response ) {
-		console.log( req.params.target, req.body );
-		
-		res.status( 204 )
-		   .end();
-		// res.json( {} );
 	}
 }
