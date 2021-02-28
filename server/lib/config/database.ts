@@ -6,34 +6,64 @@
  * Time: 	21:22
  */
 
-import * as mysql     from 'mysql';
-import { Connection } from 'mysql';
+import * as mysql from 'mysql2/promise';
+
+export class AQuery {
+	private readonly _query: string;
+	private readonly _params: any[];
+	
+	constructor( query: string, params: any[] ) {
+		this._query  = query;
+		this._params = params;
+	}
+	
+	get query(): string {
+		return this._query;
+	}
+	
+	get params(): any[] {
+		return this._params;
+	}
+}
 
 export class Database {
-	// TODO Use env file
-	protected _connexion: Connection = mysql.createConnection( {
-		host: 'localhost',
-		user: 'esm',
-		password: 'esm',
-		database: 'powa'
-	} );
+	protected _pool: AQuery[] = [];
 	
-	protected query( query: string, params: any[] = [] ) {
-		return new Promise( ( resolve, reject ) => {
-			this._connexion.connect();
-			
-			this._connexion
-			    .query(
-				    query, params,
-				    ( err, rows, fields ) => {
-					    if ( err ) return reject( err );
-					    if ( rows.affectedRows === 0 ) return reject( 'No rows affected' );
-					
-					    resolve( { rows, fields } );
-					    // console.log( err, rows, fields );
-				    } );
-			
-			this._connexion.end();
+	// --
+	
+	protected async createConnexion() {
+		// TODO Use env file
+		return mysql.createConnection( {
+			host:     'localhost',
+			user:     'esm',
+			password: 'esm',
+			database: 'powa'
 		} );
+	}
+	
+	protected addQuery( query: string, params: any[] = [] ): this {
+		this._pool.push( new AQuery( query, params ) );
+		return this;
+	}
+	
+	public async flush() {
+		const connection   = await this.createConnexion();
+		let results: any[] = [];
+		
+		for ( let currentQuery of this._pool ) {
+			const [ rows ] = await connection.execute( currentQuery.query, currentQuery.params );
+			
+			// @ts-ignore
+			if ( rows.length === 0 )
+				throw new Error( 'No rows affected' );
+			
+			results.push( rows );
+		}
+		
+		connection.end();
+		
+		return ( results.length == 1 )
+		       ? results[ 0 ]
+		       : results;
 	}
 }

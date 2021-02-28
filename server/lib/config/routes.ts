@@ -24,7 +24,9 @@ export class Routes {
 		app.route( '/api/sensors/:target' ).patch( this.sensCtrl.patchSensor );
 		app.route( '/api/sensors/:target' ).delete( this.sensCtrl.delete );
 		
+		// --- Sensor stats
 		app.route( '/api/sensors/:target/histories' ).get( this.sensCtrl.getSensorHistories );
+		app.route( '/api/sensors/:target/stats' ).get( this.sensCtrl.getData );
 		app.route( '/api/sensors/data' ).post( this.sensCtrl.postData );
 	}
 }

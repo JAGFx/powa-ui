@@ -20,3 +20,16 @@ export class Controller {
 		   .end();
 	}
 }
+
+export class Exception implements Error {
+	public message: string;
+	public name: string;
+	public code: number;
+	
+	
+	constructor( message: string, name: string, code: number ) {
+		this.message = message;
+		this.name    = name;
+		this.code    = code;
+	}
+}

@@ -6,141 +6,124 @@
  * Time: 	18:29
  */
 
-import { Request, Response } from 'express';
-import { StatusCodes }       from 'http-status-codes';
-import { SensorManager }     from '../managers/sensor.manager';
-import Sensor                from '../models/Sensor';
-import { Controller }        from './Controller';
+import { Request, Response }     from 'express';
+import { StatusCodes }           from 'http-status-codes';
+import * as moment               from 'moment';
+import { SensorDataManager }     from '../managers/sensor-data.manager';
+import { SensorManager }         from '../managers/sensor.manager';
+import Sensor                    from '../models/Sensor';
+import { Controller, Exception } from './Controller';
 
 export class SensorController {
-	private static readonly SENSORS = [
-		{
-			id:   'elc-001',
-			name: 'Compteur',
-			unit: 'unit-wh'
-		},
-		{
-			id:   'tmp-001',
-			name: 'Salon',
-			unit: 'unit-temp'
-		},
-		{
-			id:   'tmp-002',
-			name: 'Chambre',
-			unit: 'unit-temp'
-		},
-		{
-			id:   'lux-001',
-			name: 'Salon',
-			unit: 'unit-lux'
-		},
-		{
-			id:   'lux-002',
-			name: 'Chambre',
-			unit: 'unit-lux'
-		}
-	];
-	
 	// -- CRUD
 	
 	public getList( req: Request, res: Response ) {
 		const sensorMgr = new SensorManager();
-		sensorMgr.findAllByUnit( <string>req.query.unit )
-		         .then( ( result: any ) => {
-			         // console.log( result.rows );
-			         Controller.response( res, result.rows );
-		         } )
-		         .catch( ( reason => {
-			         // console.error( 'ERROR', reason );
-			         Controller.response( res, reason, StatusCodes.NO_CONTENT );
-		         } ) );
+		sensorMgr
+			.findAllByUnit( <string>req.query.unit )
+			.then( ( result: any ) => Controller.response( res, result ) )
+			.catch( ( reason => Controller.response( res, reason, StatusCodes.NO_CONTENT ) ) );
 	}
 	
 	public getOne( req: Request, res: Response ) {
 		const sensorMgr = new SensorManager();
-		sensorMgr.findOnById( req.params.target )
-		         .then( ( result: any ) => {
-			         // console.log( result );
-			         Controller.response( res, result.rows[ 0 ] );
-		         } )
-		         .catch( ( reason => {
-			         // console.error( 'ERROR', reason );
-			         Controller.response( res, reason, StatusCodes.NOT_FOUND );
-		         } ) );
+		sensorMgr
+			.findOnById( req.params.target )
+			.then( ( result: any ) => Controller.response( res, result[ 0 ] ) )
+			.catch( ( reason => Controller.response( res, reason, StatusCodes.NOT_FOUND ) ) );
 	}
 	
 	public postSensor( req: Request, res: Response ) {
 		const sensorMgr = new SensorManager();
-		const d         = req.body;
-		sensorMgr.create( new Sensor( d._name, d._id, d._unit ) )
-		         .then( ( result: any ) => {
-			         // console.log( result.rows );
-			         Controller.response( res, req.body );
-		         } )
-		         .catch( ( reason => {
-			         Controller.response( res, reason, StatusCodes.INTERNAL_SERVER_ERROR );
-		         } ) );
+		const b         = req.body;
+		sensorMgr
+			.create( new Sensor( b._name, b._id, b._unit ) )
+			.then( ( result: any ) => Controller.response( res, result[ 0 ] ) )
+			.catch( ( reason => Controller.response( res, reason, StatusCodes.INTERNAL_SERVER_ERROR ) ) );
 	}
 	
 	public patchSensor( req: Request, res: Response ) {
 		const sensorMgr = new SensorManager();
-		const d         = req.body;
+		const b         = req.body;
 		sensorMgr
-			.update( new Sensor( d._name, d._id, d._unit ) )
-			.then( ( result: any ) => {
-				// console.log( 'OK', result );
-				Controller.response( res, req.body );
-			} )
-			.catch( ( reason => {
-				// console.error( 'ERROR', reason );
-				Controller.response( res, reason, StatusCodes.NOT_FOUND );
-			} ) );
+			.update( new Sensor( b._name, b._id, b._unit ) )
+			.then( ( result: any ) => Controller.response( res, result[ 0 ] ) )
+			.catch( ( reason => Controller.response( res, reason, StatusCodes.NOT_FOUND ) ) );
 	}
 	
 	public delete( req: Request, res: Response ) {
 		const sensorMgr = new SensorManager();
-		sensorMgr.remove( req.params.target )
-		         .then( ( result: any ) => {
-			         // console.log( result.rows );
-			         Controller.response( res, {}, StatusCodes.NO_CONTENT );
-		         } )
-		         .catch( ( reason => {
-			         // console.error( 'ERROR', reason );
-			         Controller.response( res, reason, StatusCodes.NOT_FOUND );
-		         } ) );
+		sensorMgr
+			.remove( req.params.target )
+			.then( ( result: any ) => Controller.response( res, {}, StatusCodes.NO_CONTENT ) )
+			.catch( ( reason => Controller.response( res, reason, StatusCodes.NOT_FOUND ) ) );
 	}
 	
 	// --
 	
 	public getData( req: Request, res: Response ) {
-		const rand = ( min: number, max: number ) => {
-			return Math.random() * ( max - min ) + min;
-		};
-		const s    = SensorController.SENSORS.filter( s => s.id === req.params.target );
+		const sMgr     = new SensorManager();
+		const sDataMgr = new SensorDataManager();
 		
-		res.json( Object.assign( {}, s[ 0 ], {
-			month:   {
-				min: rand( 0, 100 ),
-				max: rand( 0, 100 ),
-				avg: rand( 0, 100 )
-			},
-			day:     {
-				min: rand( 0, 100 ),
-				max: rand( 0, 100 ),
-				avg: rand( 0, 100 )
-			},
-			night:   {
-				min: rand( 0, 100 ),
-				max: rand( 0, 100 ),
-				avg: rand( 0, 100 )
-			},
-			current: rand( 0, 100 )
-		} ) );
+		const target = req.params.target;
+		
+		try {
+			sMgr.findOnById( target )
+			    .then( ( resultSensor: any ) => {
+				    const sensor = resultSensor[ 0 ];
+				
+				    sDataMgr.getStatisByMonth( sensor._id )
+				            .getStatisByDay( sensor._id )
+				            .getStatisByNight( sensor._id )
+				            .getLatestValue( sensor._id )
+				            .flush()
+				            .then( ( resultStats: any ) => {
+					            if ( resultStats.length < 4 )
+						            throw new Exception(
+							            'Unable to retrieve all statistic data',
+							            '',
+							            StatusCodes.BAD_REQUEST );
+					
+					            const month   = resultStats[ 0 ][ 0 ];
+					            const day     = resultStats[ 1 ][ 0 ];
+					            const night   = resultStats[ 2 ][ 0 ];
+					            const current = resultStats[ 3 ][ 0 ];
+					
+					            const s = Object.assign( {}, sensor, {
+						            month:   {
+							            min: month.min,
+							            max: month.max,
+							            avg: month.avg
+						            },
+						            day:     {
+							            min: day.min,
+							            max: day.max,
+							            avg: day.avg
+						            },
+						            night:   {
+							            min: night.min,
+							            max: night.max,
+							            avg: night.avg
+						            },
+						            current: current.value
+					            } );
+					
+					            Controller.response( res, s, StatusCodes.OK );
+				            } );
+			    } )
+			    .catch( reason => { throw new Exception( reason, '', StatusCodes.NOT_FOUND ); } );
+			
+		} catch ( e ) {
+			if ( e instanceof Exception )
+				Controller.response( res, e.message, e.code );
+			else
+				Controller.response( res, e.message, StatusCodes.INTERNAL_SERVER_ERROR );
+		}
 	}
 	
 	public getSensorHistories( req: Request, res: Response ) {
-		// req.query.unit
-		console.log( req.params.target );
+		// req.addQuery.unit
+		// console.log( req.params.target );
 		
 		const rand = ( min: number, max: number ) => {
 			return Math.random() * ( max - min ) + min;
@@ -164,8 +147,29 @@ export class SensorController {
 	}
 	
 	public postData( req: Request, res: Response ) {
-		console.log( req.body );
+		const lines = req.body.split( '\n' );
 		
-		res.json( req.body );
+		new Promise( ( ( resolve, reject ) => {
+			const srDataMgr = new SensorDataManager();
+			lines.forEach( val => {
+				const split = val.split( ';' );
+				
+				if ( split.length < 2 )
+					reject( 'Unable to parse body' );
+				
+				const sensorName      = split[ 0 ];
+				const sensorDateValue = split[ 1 ];
+				const currentDate     = moment().format( 'YYYY-MM-DD HH:mm:ss.SSS' );
+				
+				srDataMgr.create( sensorName, sensorDateValue, currentDate );
+			} );
+			
+			srDataMgr
+				.flush()
+				.then( ( result: any ) => resolve( result ) )
+				.catch( reason => reject( reason ) );
+		} ) )
+			.then( ( result: any ) => Controller.response( res, req.body, StatusCodes.OK ) )
+			.catch( ( reason => Controller.response( res, reason, StatusCodes.BAD_REQUEST ) ) );
 	}
 }

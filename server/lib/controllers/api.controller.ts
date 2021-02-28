@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Controller }        from './Controller';
 
 /**
  * @author:	Emmanuel SMITH <hey@emmanuel-smith.me>
@@ -10,8 +11,6 @@ import { Request, Response } from 'express';
 
 export class ApiController {
 	public ping( req: Request, res: Response ) {
-		res.json( {
-			          message: 'pong'
-		          } );
+		Controller.response( res, { message: 'pong' } );
 	}
 }

@@ -17,7 +17,8 @@ export class SensorManager extends Database {
 			sensor.unit
 		];
 		
-		return this.query( q, p );
+		return this.addQuery( q, p )
+		           .flush();
 	}
 	
 	public update( sensor: Sensor ) {
@@ -28,7 +29,8 @@ export class SensorManager extends Database {
 			sensor.id
 		];
 		
-		return this.query( q, p );
+		return this.addQuery( q, p )
+		           .flush();
 	}
 	
 	public remove( sensorID: string ) {
@@ -37,7 +39,8 @@ export class SensorManager extends Database {
 			sensorID
 		];
 		
-		return this.query( q, p );
+		return this.addQuery( q, p )
+		           .flush();
 	}
 	
 	// ---
@@ -46,13 +49,14 @@ export class SensorManager extends Database {
 		const q = 'SELECT * FROM sensor WHERE _id = ? LIMIT 1';
 		const p = [ id ];
 		
-		return this.query( q, p );
+		return this.addQuery( q, p )
+		           .flush();
 	}
 	
 	public findAll() {
 		const q = 'SELECT * FROM sensor ORDER BY _name';
 		
-		return this.query( q );
+		return this.addQuery( q );
 	}
 	
 	public findAllByUnit( unit: string ) {
@@ -61,6 +65,7 @@ export class SensorManager extends Database {
 		          : 'SELECT * FROM sensor ORDER BY _name';
 		const p = [ unit ];
 		
-		return this.query( q, p );
+		return this.addQuery( q, p )
+		           .flush();
 	}
 }
