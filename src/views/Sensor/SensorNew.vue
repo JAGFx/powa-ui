@@ -21,7 +21,7 @@ import { Component, Vue } from 'vue-property-decorator';
 } )
 export default class SensorNew extends Vue {
   // public targetUnit: string = Sensor.UNIT_TEMPERATURE;
-  public sensor: Sensor = new Sensor( '', '', Sensor.UNIT_WATT_HOUR );
+  public sensor: Sensor = new Sensor( '', '', Sensor.UNIT_WATT_HOUR, -1 );
 }
 </script>
 

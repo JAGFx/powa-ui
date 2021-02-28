@@ -9,6 +9,7 @@
 import * as bodyParser from 'body-parser';
 import * as cors       from 'cors';
 import * as express    from 'express';
+import * as path       from 'path';
 import { Routes }      from './config/routes';
 
 // http://rsseau.fr/programming/2019/06/19/express-typescript.html
@@ -28,6 +29,10 @@ class App {
 		this.app.use( bodyParser.json() );
 		this.app.use( bodyParser.text() );
 		this.app.use( bodyParser.urlencoded( { extended: false } ) );
+		
+		const pathDist = path.resolve( __dirname, '../../dist' );
+		console.log( pathDist );
+		this.app.use( express.static( pathDist ) );
 	}
 }
 

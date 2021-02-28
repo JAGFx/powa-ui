@@ -7,8 +7,8 @@
  */
 
 export abstract class Provider {
-	protected host: string = `http://${ window.location.hostname }`;
-	protected port: number = 3000;
+	protected host: string = `http://${ process.env.VUE_APP_HOST }`;
+	protected port: number = process.env.VUE_APP_PORT;
 	
 	// ---
 	
