@@ -72,9 +72,9 @@ export class SensorController {
 			    .then( ( resultSensor: any ) => {
 				    const sensor = resultSensor[ 0 ];
 				
-				    sDataMgr.getStatisByMonth( sensor._id )
-				            .getStatisByDay( sensor._id )
-				            .getStatisByNight( sensor._id )
+				    sDataMgr.getStatsByMonth( sensor._id )
+				            .getStatsByDay( sensor._id )
+				            .getStatsByNight( sensor._id )
 				            .getLatestValue( sensor._id )
 				            .flush()
 				            .then( ( resultStats: any ) => {
@@ -122,28 +122,25 @@ export class SensorController {
 	}
 	
 	public getSensorHistories( req: Request, res: Response ) {
-		// req.addQuery.unit
-		// console.log( req.params.target );
+		const sDataMgr = new SensorDataManager();
 		
-		const rand = ( min: number, max: number ) => {
-			return Math.random() * ( max - min ) + min;
-		};
-		
-		const d = [
-			{
-				name: 'Feb. ' + req.params.target,
-				data: [
-					[ 1486684800000, rand( 0, 100 ) ],
-					[ 1486771200000, rand( 0, 100 ) ],
-					[ 1486857600000, rand( 0, 100 ) ],
-					[ 1486944000000, rand( 0, 100 ) ],
-					[ 1487030400000, rand( 0, 100 ) ],
-					[ 1487116800000, rand( 0, 100 ) ]
-				]
-			}
-		];
-		
-		res.json( d );
+		sDataMgr.getStatsOfThisDay( req.params.target )
+		        .then( ( result ) => {
+			        let d = [
+				        {
+					        name: moment().format( 'll' ),
+					        data: []
+				        }
+			        ];
+			
+			        for ( let row of result )
+				        d[ 0 ].data.push( [ row.hour, row.value ] );
+			
+			        // console.log( d );
+			
+			        Controller.response( res, d, StatusCodes.OK );
+		        } )
+		        .catch( reason => { throw new Exception( reason, '', StatusCodes.NOT_FOUND ); } );
 	}
 	
 	public postData( req: Request, res: Response ) {

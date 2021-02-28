@@ -17,13 +17,29 @@ export class SensorDataManager extends Database {
 			date
 		];
 		
-		this.addQuery( q, p );
+		return this.addQuery( q, p );
 	}
 	
 	// ---
 	
-	public getStatisByMonth( target: string ) {
-		const q = 'SELECT AVG( sd.value ) as avg, MIN( sd.value ) as min, MAX( sd.value ) as max\n' +
+	public getStatsOfThisDay( target: string ) {
+		const q = 'SELECT HOUR( sd.created_at ) as hour, ROUND( AVG( sd.value ), 1 ) as value\n' +
+		          'FROM sensor_data sd\n' +
+		          'WHERE sd.sensor_id = ?\n' +
+		          '  AND DATE( sd.created_at ) = ?\n' +
+		          'GROUP BY HOUR( sd.created_at )';
+		const p = [
+			target,
+			moment().format( 'YYYY-MM-DD' )
+		];
+		
+		return this.addQuery( q, p )
+		           .flush();
+	}
+	
+	
+	public getStatsByMonth( target: string ) {
+		const q = 'SELECT ROUND( AVG(sd.value), 1 ) as avg, ROUND( MIN(sd.value), 1 ) as min, ROUND( MAX(sd.value), 1 ) as max\n' +
 		          'FROM sensor_data sd\n' +
 		          'WHERE sd.sensor_id = ?\n' +
 		          '  AND MONTH( sd.created_at ) = ?';
@@ -35,8 +51,8 @@ export class SensorDataManager extends Database {
 		return this.addQuery( q, p );
 	}
 	
-	public getStatisByDay( target: string ) {
-		const q = 'SELECT AVG( sd.value ) as avg, MIN( sd.value ) as min, MAX( sd.value ) as max\n' +
+	public getStatsByDay( target: string ) {
+		const q = 'SELECT ROUND( AVG(sd.value), 1 ) as avg, ROUND( MIN(sd.value), 1 ) as min, ROUND( MAX(sd.value), 1 ) as max\n' +
 		          'FROM sensor_data sd\n' +
 		          'WHERE sd.sensor_id = ?\n' +
 		          '  AND TIME( sd.created_at ) BETWEEN \'07:30:00\' AND \'21:29:59\'';
@@ -47,8 +63,8 @@ export class SensorDataManager extends Database {
 		return this.addQuery( q, p );
 	}
 	
-	public getStatisByNight( target: string ) {
-		const q = 'SELECT AVG( sd.value ) as avg, MIN( sd.value ) as min, MAX( sd.value ) as max\n' +
+	public getStatsByNight( target: string ) {
+		const q = 'SELECT ROUND( AVG(sd.value), 1 ) as avg, ROUND( MIN(sd.value), 1 ) as min, ROUND( MAX(sd.value), 1 ) as max\n' +
 		          'FROM sensor_data sd\n' +
 		          'WHERE sd.sensor_id = ?\n' +
 		          '  AND (\n' +

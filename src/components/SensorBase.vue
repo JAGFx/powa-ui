@@ -62,7 +62,7 @@
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ displayValue( currentSensor.monthRange.min ) }}</span>
+              <span class="temp">{{ displayValue( currentSensor.monthRange.max ) }}</span>
               <span class="unity">{{ currentSensor.unitHumanized() }}</span>
             </div>
             <span class="temp-info">Max.</span>
@@ -233,8 +233,9 @@ export default class SensorBase extends Vue {
         colors: [ '#FFFFFF80' ],
         width:  2
       },
-      xaxis:  {
-        type: 'datetime'
+      xaxis: {
+        // type: 'datetime'
+        // categories: [ 'Plop' ]
       }
     };
   }
@@ -274,6 +275,7 @@ export default class SensorBase extends Vue {
       this.sensorProvider
           .getSensorHistories( this.currentSensor.id )
           .then( ( histories: any ) => {
+            // console.log( histories );
             this.chartData = histories;
           } );
   }
