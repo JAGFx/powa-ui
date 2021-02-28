@@ -3,12 +3,10 @@
     <header class="w-100 d-flex justify-content-around align-items-center">
       <router-link class="" to="/">H</router-link>
       <div class="h-100 p-3 pl-5 left" v-on:click="switchSensor(true)" v-if="sensorsLength() > 1">
-        <!---->
         <img src="assets/img/chart/back.png" class="img-fluid h-100">
       </div>
       <h3 class="m-0 w-100 smart-name" v-if="currentSensor">{{ currentSensor.name }}</h3>
       <div class="h-100 p-3 pr-5 right" v-on:click="switchSensor(false)" v-if="sensorsLength() > 1">
-        <!--v-on:click="changeSensor(false)"-->
         <img src="assets/img/chart/back.png" class="img-fluid h-100">
       </div>
     </header>
@@ -49,7 +47,7 @@
         <h4 class="d-flex align-items-center justify-content-center mb-2">Month</h4>
         <div class="box-temp mb-2">
           <div class="temp-container d-flex flex-column d-lg-block justify-content-center">
-            <span class="temp">{{ currentSensor.monthRange.avg.toFixed( 1 ) }}</span>
+            <span class="temp">{{ displayValue( currentSensor.monthRange.avg ) }}</span>
             <span class="unity">{{ currentSensor.unitHumanized() }}</span>
           </div>
           <span class="temp-info">Avg.</span>
@@ -57,14 +55,14 @@
         <div class="d-flex">
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentSensor.monthRange.min.toFixed( 1 ) }}</span>
+              <span class="temp">{{ displayValue( currentSensor.monthRange.min ) }}</span>
               <span class="unity">{{ currentSensor.unitHumanized() }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentSensor.monthRange.min.toFixed( 1 ) }}</span>
+              <span class="temp">{{ displayValue( currentSensor.monthRange.min ) }}</span>
               <span class="unity">{{ currentSensor.unitHumanized() }}</span>
             </div>
             <span class="temp-info">Max.</span>
@@ -79,7 +77,7 @@
           <img src="assets/img/chart/sun.png" class="h-100" /></h4>
         <div class="box-temp mb-2">
           <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-            <span class="temp">{{ currentSensor.dayRange.avg.toFixed( 1 ) }}</span>
+            <span class="temp">{{ displayValue( currentSensor.dayRange.avg ) }}</span>
             <span class="unity">{{ currentSensor.unitHumanized() }}</span>
           </div>
           <span class="temp-info">Avg.</span>
@@ -87,14 +85,14 @@
         <div class="d-flex">
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentSensor.dayRange.min.toFixed( 1 ) }}</span>
+              <span class="temp">{{ displayValue( currentSensor.dayRange.min ) }}</span>
               <span class="unity">{{ currentSensor.unitHumanized() }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentSensor.dayRange.max.toFixed( 1 ) }}</span>
+              <span class="temp">{{ displayValue( currentSensor.dayRange.max ) }}</span>
               <span class="unity">{{ currentSensor.unitHumanized() }}</span>
             </div>
             <span class="temp-info">Max.</span>
@@ -109,7 +107,7 @@
           <img src="assets/img/chart/moon.png" class="h-100" /></h4>
         <div class="box-temp mb-2">
           <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-            <span class="temp">{{ currentSensor.nightRange.avg.toFixed( 1 ) }}</span>
+            <span class="temp">{{ displayValue( currentSensor.nightRange.avg ) }}</span>
             <span class="unity">{{ currentSensor.unitHumanized() }}</span>
           </div>
           <span class="temp-info">Avg.</span>
@@ -117,14 +115,14 @@
         <div class="d-flex">
           <div class="box-temp small-box w-100 min">
             <div class="temp-container  d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentSensor.nightRange.min.toFixed( 1 ) }}</span>
+              <span class="temp">{{ displayValue( currentSensor.nightRange.min ) }}</span>
               <span class="unity">{{ currentSensor.unitHumanized() }}</span>
             </div>
             <span class="temp-info">Min.</span>
           </div>
           <div class="box-temp small-box w-100 max">
             <div class="temp-container d-flex flex-column d-lg-block justify-content-center">
-              <span class="temp">{{ currentSensor.nightRange.max.toFixed( 1 ) }}</span>
+              <span class="temp">{{ displayValue( currentSensor.nightRange.max ) }}</span>
               <span class="unity">{{ currentSensor.unitHumanized() }}</span>
             </div>
             <span class="temp-info">Max.</span>
@@ -136,7 +134,7 @@
     <div class="current  text-center" v-if="currentSensor">
       <div class="box-temp">
         <div class="temp-container">
-          <span class="temp">{{ currentSensor.current.toFixed( 1 ) }}</span>
+          <span class="temp">{{ displayValue( currentSensor.current ) }}</span>
           <span class="unity">{{ currentSensor.unitHumanized() }}</span>
         </div>
         <span class="temp-info">Current</span>
@@ -266,6 +264,7 @@ export default class SensorBase extends Vue {
                    this.currentSensor = sensor;
                    this.lastUpdate    = new Date();
                    // this.changeSensor( sensor );
+                   // console.log( sensor );
                  }
                } );
   }
@@ -292,6 +291,13 @@ export default class SensorBase extends Vue {
 
   public stopAutoRefreshData() {
     clearTimeout( this.pendingUpdate );
+  }
+
+  public displayValue( value: any, precision: number = 1 ): number {
+    if ( isNaN( Number( value ) ) || value === null )
+      return 0;
+
+    return value.toFixed( precision );
   }
 
   // ---- ./Data methods

@@ -6,6 +6,7 @@
  * Time: 	20:38
  */
 import Sensor       from '@/models/Sensors/Sensor';
+import SensorRange  from '@/models/Sensors/SensorRange';
 import { Provider } from '@/providers/provider';
 import axios        from 'axios';
 
@@ -35,24 +36,24 @@ export class SensorProvider extends Provider {
 	}
 	
 	public getSensorData( id: string ) {
-		return axios.get( this.path( `${ id }` ) )
+		return axios.get( this.path( `${ id }/stats` ) )
 		            .then( ( data: any ) => {
 			            const raw = data.data.data;
 			
 			            let sensor: Sensor = new Sensor( raw._name, raw._id, raw._unit, raw._uid );
-			            // sensor.monthRange = new SensorRange(
-			            //     raw.month.min,
-			            //     raw.month.max,
-			            //     raw.month.avg );
-			            // sensor.dayRange   = new SensorRange(
-			            //     raw.day.min,
-			            //     raw.day.max,
-			            //     raw.day.avg );
-			            // sensor.nightRange = new SensorRange(
-			            //     raw.night.min,
-			            //     raw.night.max,
-			            //     raw.night.avg );
-			            // sensor.current    = raw.current;
+			            sensor.monthRange  = new SensorRange(
+				            raw.month.min,
+				            raw.month.max,
+				            raw.month.avg );
+			            sensor.dayRange    = new SensorRange(
+				            raw.day.min,
+				            raw.day.max,
+				            raw.day.avg );
+			            sensor.nightRange  = new SensorRange(
+				            raw.night.min,
+				            raw.night.max,
+				            raw.night.avg );
+			            sensor.current     = raw.current;
 			
 			            return sensor;
 		            } );
