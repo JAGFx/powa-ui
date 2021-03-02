@@ -6,7 +6,8 @@
  * Time: 	21:22
  */
 
-import * as mysql from 'mysql2/promise';
+import * as mysql                                       from 'mysql2/promise';
+import { DB_HOST, DB_LOGIN, DB_NAME, DB_PORT, DB_PSWD } from './dotenv';
 
 export class AQuery {
 	private readonly _query: string;
@@ -34,10 +35,11 @@ export class Database {
 	protected async createConnexion() {
 		// TODO Use env file
 		return mysql.createConnection( {
-			host:     'localhost',
-			user:     'esm',
-			password: 'esm',
-			database: 'powa'
+			host:     DB_HOST,
+			port:     DB_PORT,
+			user:     DB_LOGIN,
+			password: DB_PSWD,
+			database: DB_NAME
 		} );
 	}
 	
