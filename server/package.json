@@ -3,11 +3,11 @@
 	"version" :         "1.0.0",
 	"description" :     "",
 	"main" :            "index.js",
-	"scripts" :         {
-		"server:dev" :  "ts-node ./lib/server.ts",
-		"server:prod" : "tsc",
-		"start" :       "npx nodemon ./dist/server.js",
-		"prod" :        "npm run server:prod && npm run start"
+	"scripts" : {
+		"server:dev" :   "ts-node ./lib/server.ts",
+		"server:build" : "tsc",
+		"start" :        "npx nodemon ./dist/server.js",
+		"server:prod" :  "npm run server:prod && npm run start"
 	},
 	"author" :          "",
 	"license" :         "ISC",

@@ -140,7 +140,8 @@ export class SensorController {
 			
 			        Controller.response( res, d, StatusCodes.OK );
 		        } )
-		        .catch( reason => { throw new Exception( reason, '', StatusCodes.NOT_FOUND ); } );
+		        .catch( reason => Controller.response( res, reason, StatusCodes.NO_CONTENT ) );
+		
 	}
 	
 	public postData( req: Request, res: Response ) {
