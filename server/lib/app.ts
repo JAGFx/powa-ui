@@ -25,7 +25,7 @@ class App {
 	}
 	
 	private config(): void {
-		this.app.use( cors( { origin: true, credentials: true } ) );
+		this.app.use( cors( { origin: [ 'http://powa-ui.jagfx.fr', 'http://localhost:8080' ], credentials: true } ) );
 		this.app.use( bodyParser.json() );
 		this.app.use( bodyParser.text() );
 		this.app.use( bodyParser.urlencoded( { extended: false } ) );

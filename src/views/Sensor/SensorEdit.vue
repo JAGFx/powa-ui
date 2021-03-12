@@ -29,7 +29,7 @@ export default class SensorEdit extends Vue {
 
   mounted() {
     this.sensorProvider
-        .getSensorData( this.sensor_id )
+        .getSensor( this.sensor_id )
         .then( ( sensor: Sensor ) => {
           this.sensor = sensor;
         } );

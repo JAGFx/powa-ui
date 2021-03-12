@@ -33,7 +33,6 @@ export class Database {
 	// --
 	
 	protected async createConnexion() {
-		// TODO Use env file
 		return mysql.createConnection( {
 			host:     DB_HOST,
 			port:     DB_PORT,

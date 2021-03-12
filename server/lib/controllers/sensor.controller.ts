@@ -22,7 +22,10 @@ export class SensorController {
 		sensorMgr
 			.findAllByUnit( <string>req.query.unit )
 			.then( ( result: any ) => Controller.response( res, result ) )
-			.catch( ( reason => Controller.response( res, reason, StatusCodes.NO_CONTENT ) ) );
+			.catch( ( reason => {
+				console.error( reason );
+				Controller.response( res, reason, StatusCodes.NO_CONTENT );
+			} ) );
 	}
 	
 	public getOne( req: Request, res: Response ) {

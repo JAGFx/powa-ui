@@ -1,0 +1,36 @@
+version: "3.6"
+
+services:
+    powa-db:
+        image: mariadb
+        command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+        volumes:
+            - db:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=heroku42
+            - MYSQL_DATABASE=powa
+        networks:
+            - tf_gate
+
+    powa:
+        image: powa-ui:latest
+        labels:
+            traefik.enable: "true"
+            traefik.port: 3000
+            traefik.frontend.rule: "Host:powa-ui.jagfx.fr"
+            traefik.docker.network: "tf_gate"
+        volumes:
+            - ./:/home/node/app
+        networks:
+            - tf_gate
+            - bdg
+volumes:
+    db:
+
+networks:
+    tf_gate:
+        external: true
+        name: tf_gate
+    bdg:
+        external: true
+        name: bridge

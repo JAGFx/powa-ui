@@ -27,11 +27,23 @@ export class SensorProvider extends Provider {
 			            const sensorsRaw                      = data.data.data;
 			            let list: { [ key: string ]: Sensor } = {};
 			
+			            if ( data.data.length <= 0 )
+				            return list;
+			
 			            sensorsRaw.forEach( ( sensor: any ) => {
 				            list[ sensor.id ] = new Sensor( sensor._name, sensor._id, sensor._unit, sensor._uid );
 			            } );
 			
 			            return list;
+		            } );
+	}
+	
+	public getSensor( id: string ) {
+		return axios.get( this.path( `${ id }` ) )
+		            .then( ( data: any ) => {
+			            const raw = data.data.data;
+			
+			            return new Sensor( raw._name, raw._id, raw._unit, raw._uid );
 		            } );
 	}
 	

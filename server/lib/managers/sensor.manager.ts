@@ -63,7 +63,9 @@ export class SensorManager extends Database {
 		const q = ( unit !== undefined )
 		          ? 'SELECT * FROM sensor WHERE _unit = ? ORDER BY _name'
 		          : 'SELECT * FROM sensor ORDER BY _name';
-		const p = [ unit ];
+		const p = ( unit !== undefined )
+		          ? [ unit ]
+		          : [];
 		
 		return this.addQuery( q, p )
 		           .flush();

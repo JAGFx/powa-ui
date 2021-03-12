@@ -2,9 +2,11 @@
   "name": "powa",
   "version": "0.1.0",
   "private": true,
-  "scripts":      {
-    "app:dev" :  "vue-cli-service serve",
-    "app:prod" : "vue-cli-service build"
+  "scripts": {
+    "app:dev" :      "npx vue-cli-service serve",
+    "app:prod" :     "npx vue-cli-service build",
+    "server:build" : "cd server && npm run server:build",
+    "start" :        "cd server && npm run server:start"
   },
   "dependencies": {
     "apexcharts" :              "^3.23.1",
