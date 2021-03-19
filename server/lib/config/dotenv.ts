@@ -21,8 +21,10 @@ switch ( process.env.NODE_ENV ) {
 }
 dotenv.config( { path: path } );
 
-export const DB_HOST: string  = process.env.DB_HOST;
-export const DB_PORT: number  = Number( process.env.DB_PORT );
-export const DB_LOGIN: string = process.env.DB_LOGIN;
-export const DB_PSWD: string  = process.env.DB_PSWD;
-export const DB_NAME: string  = process.env.DB_NAME;
+export const DB_HOST: string      = process.env.DB_HOST;
+export const DB_PORT: number      = Number( process.env.DB_PORT );
+export const DB_LOGIN: string     = process.env.DB_LOGIN;
+export const DB_PSWD: string      = process.env.DB_PSWD;
+export const DB_NAME: string      = process.env.DB_NAME;
+export const APP_USERNAME: string = process.env.APP_USERNAME;
+export const APP_PSWD: string     = process.env.APP_PSWD;

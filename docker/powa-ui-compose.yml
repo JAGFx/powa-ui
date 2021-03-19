@@ -7,8 +7,8 @@ services:
         volumes:
             - db:/var/lib/mysql
         environment:
-            - MYSQL_ROOT_PASSWORD=heroku42
-            - MYSQL_DATABASE=powa
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
         networks:
             - tf_gate
 

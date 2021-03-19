@@ -1,19 +1,15 @@
-FROM node:14
+FROM node:14-alpine
 WORKDIR /var/www/html/
-
-RUN apt update -y && apt upgrade -y && apt dist-upgrade -y && apt full-upgrade -y && apt autoremove -y
-
 COPY . /var/www/html/
 
+# Build front
 RUN npm ci
-RUN rm .env.local
 RUN npm run app:prod
+
+# Build server
+ENV NODE_ENV production
 RUN cd server && npm ci
 RUN npm run server:build
-
-RUN /var/www/html/docker/clean-up.sh
-
-ENV NODE_ENV production
 
 EXPOSE 3000
 

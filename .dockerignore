@@ -1,5 +1,8 @@
 node_modules
+ressources
 npm-debug.log
 *.md
 LICENSE
 dist
+.env.dist
+.env.local
