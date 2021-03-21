@@ -28,3 +28,4 @@ export const DB_PSWD: string      = process.env.DB_PSWD;
 export const DB_NAME: string      = process.env.DB_NAME;
 export const APP_USERNAME: string = process.env.APP_USERNAME;
 export const APP_PSWD: string     = process.env.APP_PSWD;
+export const CORS_HOSTS: string[] = process.env.CORS_HOSTS.split( ',' );

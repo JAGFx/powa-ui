@@ -7,13 +7,18 @@
  */
 
 export abstract class Provider {
-	protected host: string = `http://${ process.env.VUE_APP_HOST }`;
-	protected port: number = process.env.VUE_APP_PORT;
+	protected protocol: string = window.location.protocol;
+	protected host: string     = window.location.hostname;
+	protected port: number     = process.env.VUE_APP_SERVEUR_PORT;
 	
 	// ---
 	
 	protected path( target?: string ): string {
-		return `${ this.host }:${ this.port }/api/${ this.prefixPath() }${ target }`;
+		const hostname = ( this.port !== undefined )
+		                 ? `${ this.protocol }//${ this.host }:${ this.port }`
+		                 : window.location.origin;
+		
+		return `${ hostname }/api/${ this.prefixPath() }${ target }`;
 	}
 	
 	// ---

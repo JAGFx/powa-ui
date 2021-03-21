@@ -6,13 +6,13 @@
  * Time: 	14:58
  */
 
-import * as bodyParser            from 'body-parser';
-import * as cors                  from 'cors';
-import * as express               from 'express';
-import * as basicAuth             from 'express-basic-auth';
-import * as path                  from 'path';
-import { APP_PSWD, APP_USERNAME } from './config/dotenv';
-import { Routes }                 from './config/routes';
+import * as bodyParser                        from 'body-parser';
+import * as cors                              from 'cors';
+import * as express                           from 'express';
+import * as basicAuth                         from 'express-basic-auth';
+import * as path                              from 'path';
+import { APP_PSWD, APP_USERNAME, CORS_HOSTS } from './config/dotenv';
+import { Routes }                             from './config/routes';
 
 // http://rsseau.fr/programming/2019/06/19/express-typescript.html
 
@@ -30,7 +30,7 @@ class App {
 		let auth             = {};
 		auth[ APP_USERNAME ] = APP_PSWD;
 		
-		this.app.use( cors( { origin: [ 'http://powa-ui.jagfx.fr', 'http://localhost:8080' ], credentials: true } ) );
+		this.app.use( cors( { origin: CORS_HOSTS, credentials: true } ) );
 		this.app.use( bodyParser.json() );
 		this.app.use( bodyParser.text() );
 		this.app.use( bodyParser.urlencoded( { extended: false } ) );

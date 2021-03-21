@@ -17,10 +17,12 @@ services:
         labels:
             traefik.enable: "true"
             traefik.port: 3000
-            traefik.frontend.rule: "Host:powa-ui.jagfx.fr"
+            traefik.frontend.rule: "Host:${TRAEFIK_HOST}"
             traefik.docker.network: "tf_gate"
         volumes:
             - ./:/home/node/app
+        ports:
+            - ${TRAEFIK_PORTS}
         networks:
             - tf_gate
             - bdg
